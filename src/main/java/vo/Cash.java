@@ -3,6 +3,8 @@ package vo;
 public class Cash {
 	private int cashNo;
 	private int categoryNo;		// FK -> INNER JOIN -> Map or Category 객체
+	private String memberId;
+	private String cashDate;
 	private long cashPrice;		// int 타입 범위 넘어갈 것 우려 -> long으로 선언
 	private String cashMemo;
 	private String updatedate;
@@ -19,6 +21,18 @@ public class Cash {
 	}
 	public void setCategoryNo(int categoryNo) {
 		this.categoryNo = categoryNo;
+	}
+	public String getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+	public String getCashDate() {
+		return cashDate;
+	}
+	public void setCashDate(String cashDate) {
+		this.cashDate = cashDate;
 	}
 	public long getCashPrice() {
 		return cashPrice;
