@@ -119,13 +119,31 @@
 									for(HashMap<String, Object> m : list){
 										String cashDate = (String)(m.get("cashDate"));
 										if(Integer.parseInt(cashDate.substring(8)) == date){
+											if(m.get("categoryKind").equals("수입")){		// 수입 -> 파란색
+											%>
+												<div>
+												<span style="color:blue">
+											<%
 								%>
-											<div>
-											[<%=(String)m.get("categoryKind")%>]
-											<%=(String)m.get("categoryName")%>
-											<%=(Long)m.get("cashPrice")%>원
-											</div>
+												[<%=(String)m.get("categoryKind")%>]
+												<%=(String)m.get("categoryName")%>
+												<%=(Long)m.get("cashPrice")%>원
+												</span>
+												</div>
 								<%
+											}else {
+											%>
+												<div>
+												<span style="color:red">
+											<%
+								%>
+												[<%=(String)m.get("categoryKind")%>]
+												<%=(String)m.get("categoryName")%>
+												<%=(Long)m.get("cashPrice")%>원
+												</span>
+												</div>
+											<%
+											}
 										}
 									}
 								%>

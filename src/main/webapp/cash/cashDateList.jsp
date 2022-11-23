@@ -24,15 +24,27 @@
 		return;
 	}
 	
+	System.out.println("중간 확인");
 	
 	// 페이지에서 ?n=<%=%/>으로 넘긴 거 그대로 이름에 써도 되나? ㅇㅇ
 	int year = Integer.parseInt(request.getParameter("year"));
 	int month = Integer.parseInt(request.getParameter("month"));
 	int date = Integer.parseInt(request.getParameter("date"));
 	
-	CashDao cashDao = new CashDao(); 
-	ArrayList<HashMap<String, Object>> list = cashDao.selectCashListByMonth(loginMemberId, year, month); // 2
+	System.out.println(year+"View 전 년");
+	System.out.println(month+"View 전 월");
+	System.out.println(date+"View 전 일");
 	
+	
+	CategoryDao categoryDao = new CategoryDao();
+	ArrayList<Category> categoryList = categoryDao.selectCategoryList(); // 2
+	
+	for(Category c : categoryList){
+		System.out.println(c.getCategoryKind() + " <--- 확인");
+	}
+	
+	CashDao cashDao = new CashDao(); 
+	ArrayList<HashMap<String, Object>> list = cashDao.selectCashListByDate(loginMember.getMemberId(), year, month, date); // 2
 	
 	// 3
 %>
@@ -45,9 +57,66 @@
 <body>
 	<div>
 		<%=year%>년 <%=month%>월 <%=date%>일
-		<span>&nbsp;</span>
-		<a href="<%=request.getContextPath()%>/cash/insertCashForm.jsp">추가</a>
 	</div>
+	<br>
+
+	<!-- cash 입력 폼 -->
+	<div>
+		<form action="<%=request.getContextPath()%>/cash/insertCashAction.jsp" method="post">
+			<input type="hidden" name="memberId" value="<%=loginMember.getMemberId()%>">
+			<!-- 입력 후 해당 날짜 상세페이지로 가려고 -->
+			<input type="hidden" name="year" value="<%=year%>">
+			<input type="hidden" name="month" value="<%=month%>">
+			<input type="hidden" name="date" value="<%=date%>">
+			<table>
+				<tr>
+					<td>cashDate</td>
+					<td>
+						<input type="text" name="cashDate" value="<%=year%>-<%=month%>-<%=date%>" readonly="readonly">
+					</td>
+				</tr>
+				
+				<tr>
+					<td>categoryNo</td>
+					<td>
+						<select name="categoryNo">
+						<%
+							for(Category c : categoryList){
+						%>
+								<option value="<%=c.getCategoryNo()%>">
+									<%=c.getCategoryKind()%>
+									&nbsp;
+									<%=c.getCategoryName()%>
+								</option>
+						<%
+							}
+						%>
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>cashPrice</td>
+					<td>
+						<input type="number" name="cashPrice">
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td>cashMemo</td>
+					<td>
+						<textarea rows="3" cols="50" name="cashMemo"></textarea>
+					</td>
+				</tr>
+			</table>
+			<button type="submit">추가</button>
+		</form>
+	</div>	
+	
+	<br>
+	
+	<!-- cash 목록 출력 -->
 	<div>
 		<table>
 			<tr>
@@ -55,7 +124,8 @@
 				<th>분류</th>
 				<th>금액</th>
 				<th>내용</th>
-				<th>수정/삭제</th>
+				<th>수정</th>
+				<th>삭제</th>
 			</tr>
 		<%
 			for(HashMap<String, Object> m : list){
@@ -66,15 +136,23 @@
 				//if(cashDate.substring(0, 7).equals(year+"-"+month) && Integer.parseInt(cashDate.substring(8)) == date){ ----- 월에도 0 붙고 안 붙고 있음
 				if(Integer.parseInt(cashDate.substring(0, 4)) == year && Integer.parseInt(cashDate.substring(5, 7)) == month && Integer.parseInt(cashDate.substring(8)) == date){
 					%>
-
+					
+					<!-- 수입, 지출 색깔 다르게 -->
 					<tr>
+						
 						<td>[<%=(String)m.get("categoryKind")%>]</td>
 						<td><%=(String)m.get("categoryName")%></td>
 						<td><%=(Long)m.get("cashPrice")%>원</td>
 						<td><%=(String)m.get("cashMemo")%></td>
+						<% 
+							int cashNo = (Integer)m.get("cashNo");
+							System.out.println(cashNo + "<--캐시번호");
+						%>
 						<td>
-							<a href="<%=request.getContextPath()%>/cash/updateCashForm.jsp">수정</a>
-							<a href="<%=request.getContextPath()%>/cash/deleteCashForm.jsp">삭제</a>
+							<a href="<%=request.getContextPath()%>/cash/updateCashForm.jsp?cashNo=<%=cashNo%>">수정</a>
+						</td>
+						<td>
+							<a href="<%=request.getContextPath()%>/cash/deleteCash.jsp?cashNo=<%=cashNo%>">삭제</a>
 						</td>
 					<tr>
 

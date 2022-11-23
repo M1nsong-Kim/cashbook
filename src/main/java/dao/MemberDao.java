@@ -32,8 +32,20 @@ public class MemberDao {
 	}
 	
 	// 회원가입
-	public int insertMember(Member paramMember) throws Exception{
+	public int signUpMember(Member paramMember) throws Exception{
 		int resultRow = 0;
-		return resultRow;
+		
+		// 공통 코드 메서드로 분리
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+				
+		String sql ="INSERT INTO member(member_id, member_pw, member_name, updatedate, createdate) VALUES(?, PASSWORD(?), ?, CURDATE(), CURDATE())";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, paramMember.getMemberId());
+		stmt.setString(2, paramMember.getMemberPw());
+		stmt.setString(3, paramMember.getMemberName());
+		
+		resultRow = stmt.executeUpdate();
+		return resultRow;	// 성공하면 1
 	}
 }

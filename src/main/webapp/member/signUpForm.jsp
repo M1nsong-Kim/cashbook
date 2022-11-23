@@ -23,19 +23,19 @@
 				<tr>
 					<td>아이디</td>
 					<td>
-						<input type="text" name="id">
+						<input type="text" name="memberId">
 					</td>
 				</tr>
 				<tr>
 					<td>비밀번호</td>
 					<td>
-						<input type="password" name="pw">
+						<input type="password" name="memberPw">
 					</td>
 				</tr>
 				<tr>
 					<td>이름</td>
 					<td>
-						<input type="text" name="name">
+						<input type="text" name="memberName">
 					</td>
 				</tr>
 			</table>
