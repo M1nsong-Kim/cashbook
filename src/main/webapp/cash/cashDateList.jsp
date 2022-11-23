@@ -4,6 +4,7 @@
 <%@ page import="vo.*" %>
 <%
 	// 1
+	request.setCharacterEncoding("UTF-8");	//한글 인코딩
 	
 	// 로그인 x -> 로그인창으로 돌려보냄
 	if(session.getAttribute("loginMember") == null){
@@ -26,7 +27,6 @@
 	
 	System.out.println("중간 확인");
 	
-	// 페이지에서 ?n=<%=%/>으로 넘긴 거 그대로 이름에 써도 되나? ㅇㅇ
 	int year = Integer.parseInt(request.getParameter("year"));
 	int month = Integer.parseInt(request.getParameter("month"));
 	int date = Integer.parseInt(request.getParameter("date"));
@@ -70,14 +70,14 @@
 			<input type="hidden" name="date" value="<%=date%>">
 			<table>
 				<tr>
-					<td>cashDate</td>
+					<td>날짜</td>
 					<td>
 						<input type="text" name="cashDate" value="<%=year%>-<%=month%>-<%=date%>" readonly="readonly">
 					</td>
 				</tr>
 				
 				<tr>
-					<td>categoryNo</td>
+					<td>분류</td>
 					<td>
 						<select name="categoryNo">
 						<%
@@ -96,7 +96,7 @@
 				</tr>
 				
 				<tr>
-					<td>cashPrice</td>
+					<td>금액</td>
 					<td>
 						<input type="number" name="cashPrice">
 					</td>
@@ -104,7 +104,7 @@
 				
 				
 				<tr>
-					<td>cashMemo</td>
+					<td>내용</td>
 					<td>
 						<textarea rows="3" cols="50" name="cashMemo"></textarea>
 					</td>
@@ -136,10 +136,7 @@
 				//if(cashDate.substring(0, 7).equals(year+"-"+month) && Integer.parseInt(cashDate.substring(8)) == date){ ----- 월에도 0 붙고 안 붙고 있음
 				if(Integer.parseInt(cashDate.substring(0, 4)) == year && Integer.parseInt(cashDate.substring(5, 7)) == month && Integer.parseInt(cashDate.substring(8)) == date){
 					%>
-					
-					<!-- 수입, 지출 색깔 다르게 -->
 					<tr>
-						
 						<td>[<%=(String)m.get("categoryKind")%>]</td>
 						<td><%=(String)m.get("categoryName")%></td>
 						<td><%=(Long)m.get("cashPrice")%>원</td>
@@ -149,7 +146,7 @@
 							System.out.println(cashNo + "<--캐시번호");
 						%>
 						<td>
-							<a href="<%=request.getContextPath()%>/cash/updateCashForm.jsp?cashNo=<%=cashNo%>">수정</a>
+							<a href="<%=request.getContextPath()%>/cash/updateCashForm.jsp?cashNo=<%=cashNo%>&year=<%=year%>&month=<%=month%>&date=<%=date%>">수정</a>
 						</td>
 						<td>
 							<a href="<%=request.getContextPath()%>/cash/deleteCash.jsp?cashNo=<%=cashNo%>">삭제</a>

@@ -94,15 +94,51 @@ public class CashDao {
 		
 	}
 	
-	// 수정
-	public int updateCashList() throws Exception{
+	
+	// 해당 캐시번호 자료 보기
+	public HashMap<String, Object> selectCashListByCashNo(int cashNo) throws Exception{
+		HashMap<String, Object> map = new HashMap<>();
+		
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "";
+		String sql = "SELECT cash_no cashNo, cash_date cashDate, cash_price cashPrice, category_no categoryNo, cash_memo cashMemo \r\n"
+				+ "FROM cash\r\n"
+				+ "WHERE cash_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, cashNo);
 		
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			map.put("cashNo", cashNo);
+			map.put("cashDate", rs.getString("cashDate"));
+			map.put("cashPrice", rs.getLong("cashPrice"));
+			map.put("categoryNo", rs.getInt("categoryNo"));
+			map.put("cashMemo", rs.getString("cashMemo"));
+		}
+		return map;
+	}
+	
+	// 수정
+	public int updateCashList(int categoryNo, long cashPrice, String cashMemo, int cashNo, String memberId) throws Exception{
+		int row = 0; 
+
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
 		
-		int row = 0;
+		String sql = "UPDATE cash\r\n"
+				+ "SET category_no = ?\r\n"
+				+ "	, cash_price = ?\r\n"
+				+ "	, cash_memo = ?\r\n"
+				+ "	, updatedate = CURDATE()\r\n"
+				+ "WHERE cash_no = ? AND member_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, categoryNo);
+		stmt.setLong(2, cashPrice);
+		stmt.setString(3, cashMemo);
+		stmt.setInt(4, cashNo);
+		stmt.setString(5, memberId);
+		
+		row = stmt.executeUpdate();
 		return row;
 
 	}
