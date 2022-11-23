@@ -78,6 +78,7 @@
 		<!-- 로그인 정보(세션 loginMember 변수) -->
 		<span><%=loginMemberName%> 님 반갑습니다.</span>
 		<span>&nbsp;</span>
+		<a href="<%=request.getContextPath()%>/member/memberPage.jsp">내정보</a>
 		<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
 	</div>
 	

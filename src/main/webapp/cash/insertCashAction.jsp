@@ -4,7 +4,8 @@
 <%@ page import="vo.*" %>
 <%
 	// 1
-
+	request.setCharacterEncoding("UTF-8");	//한글 인코딩
+	
 	//로그인 x -> 로그인창으로 돌려보냄
 	if(session.getAttribute("loginMember") == null){
 		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");

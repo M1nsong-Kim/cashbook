@@ -72,7 +72,7 @@ public class CashDao {
 	}
 	
 	
-	//categoryNo, cashPrice, cashDate, cashMemo
+	// insertCashList
 	public int insertCashList(String loginMemberId, int categoryNo, long cashPrice, String cashDate, String cashMemo) throws Exception{
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
@@ -93,7 +93,6 @@ public class CashDao {
 		}
 		
 	}
-	
 	
 	// 해당 캐시번호 자료 보기
 	public HashMap<String, Object> selectCashListByCashNo(int cashNo) throws Exception{
@@ -138,11 +137,25 @@ public class CashDao {
 		stmt.setInt(4, cashNo);
 		stmt.setString(5, memberId);
 		
+		// 성공하면 row = 1
 		row = stmt.executeUpdate();
 		return row;
 
 	}
 	
 	// 삭제
+	public int deleteCash(int cashNo) throws Exception{
+		int row = 0;
+		
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "DELETE FROM cash WHERE cash_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, cashNo);
+		
+		// 성공하면 row = 1
+		row = stmt.executeUpdate();
+		return row;
+	}
 	
 }
