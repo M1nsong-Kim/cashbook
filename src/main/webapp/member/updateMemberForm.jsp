@@ -29,7 +29,10 @@
 			<table>
 				<tr>
 					<td>아이디</td>
-					<td><%=memberId%></td>
+					<td>
+						<%=memberId%>
+						<input type="hidden" name="memberId" value="<%=memberId%>">
+					</td>
 				</tr>
 				<tr>
 					<td>이름</td>

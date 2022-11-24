@@ -80,6 +80,13 @@
 		<span>&nbsp;</span>
 		<a href="<%=request.getContextPath()%>/member/memberPage.jsp">내정보</a>
 		<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
+		<%
+			if(loginMember.getMemberLevel() > 0){
+		%>
+				<a href="<%=request.getContextPath()%>/admin/adminMain.jsp">관리자 페이지</a>
+		<%
+			}
+		%>
 	</div>
 	
 	<div>

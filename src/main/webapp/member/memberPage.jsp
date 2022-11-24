@@ -14,7 +14,7 @@
 	
 	// 현재 로그인한 사람
 	Member loginMember = (Member)session.getAttribute("loginMember");
-	
+
 %>
 <!DOCTYPE html>
 <html>
@@ -43,7 +43,7 @@
 			</tr>
 		</table>
 		<a href="<%=request.getContextPath()%>/member/updateMemberForm.jsp">내 정보 수정</a>
-		<a href="<%=request.getContextPath()%>/member/">회원탈퇴</a>
+		<a href="<%=request.getContextPath()%>/member/deleteMemberForm.jsp">회원탈퇴</a>
 	</div>
 </body>
 </html>

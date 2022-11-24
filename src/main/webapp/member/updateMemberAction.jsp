@@ -15,7 +15,7 @@
 	
 	// 현재 로그인
 	Member loginMember = (Member)session.getAttribute("loginMember");
-	String memberId = loginMember.getMemberId();
+	System.out.println(loginMember.getMemberId()+"---------세션 아이디 확인");
 	
 	// 방어 코드 - 입력되지 않으면 폼으로 돌려보냄
 	if(request.getParameter("memberName") == null || request.getParameter("memberName").equals("")
@@ -26,25 +26,42 @@
 		
 	
 	// 넘어온 정보 확인
+	String memberId = request.getParameter("memberId");
 	String memberName = request.getParameter("memberName");
 	String memberPw = request.getParameter("memberPw");
 	
-	MemberDao memberDao = new MemberDao();
+	Member paramMember = new Member();
+	paramMember.setMemberNo(loginMember.getMemberNo());
+	paramMember.setMemberId(memberId);
+	paramMember.setMemberName(memberName);
+	paramMember.setMemberPw(memberPw);
 	
+	MemberDao memberDao = new MemberDao();
+
 	// 비밀번호 일치 확인
-	int checkPw = memberDao.selectMemberPw(memberId, memberPw);
+	int checkPw = memberDao.selectMemberPw(paramMember);
 	if(checkPw == 0){	// 비밀번호가 틀렸다면
 		String msg = URLEncoder.encode("비밀번호를 정확하게 입력해 주세요.", "UTF-8");
 		response.sendRedirect(request.getContextPath()+"/member/updateMemberForm.jsp?msg="+msg);
 		return;
 	}
 	
+	System.out.println("비밀번호 일치 확인 완료");
+	
+	System.out.println(paramMember.getMemberNo()+"번호 확인");
+	System.out.println(paramMember.getMemberId()+"아이디 확인");
+	System.out.println(paramMember.getMemberName()+"이름 확인");
+	System.out.println(paramMember.getMemberPw()+"비밀번호 확인");
+	
 	// 정보 수정 수행
-	int check = memberDao.updateMember(memberName, memberId, memberPw);
+	int check = memberDao.updateMember(paramMember);
 	if(check == 1){
 		System.out.println("회원정보 변경 성공");
 	}else {
 		System.out.println("회원정보 변경 실패");
+		String msg = URLEncoder.encode("회원 정보 변경에 실패하였습니다.", "UTF-8");
+		response.sendRedirect(request.getContextPath()+"/member/updateMemberForm.jsp?msg="+msg);
+		return;
 	}
 
 %>

@@ -17,9 +17,14 @@
 	String memberId = request.getParameter("memberId");
 	String memberPw = request.getParameter("memberPw");
 	String memberName = request.getParameter("memberName");
+
+	Member paramMember = new Member();
+	paramMember.setMemberId(memberId);
+	paramMember.setMemberPw(memberPw);
+	paramMember.setMemberName(memberName);
 	
 	MemberDao memberDao = new MemberDao();
-	int check = memberDao.memberIdCheck(memberId);
+	int check = memberDao.memberIdCheck(memberId);	// 2 M 호출
 	
 	if(check == 1){
 		System.out.println("중복된 아이디가 아닙니다");
@@ -28,11 +33,6 @@
 		response.sendRedirect(request.getContextPath()+"/member/signUpForm.jsp?msg="+msg);
 		return;
 	}
-	
-	Member paramMember = new Member();
-	paramMember.setMemberId(memberId);
-	paramMember.setMemberPw(memberPw);
-	paramMember.setMemberName(memberName);
 	
 	memberDao.signUpMember(paramMember);	// 2 M 호출
 	

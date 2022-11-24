@@ -13,7 +13,7 @@ public class MemberDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		
-		String sql = "SELECT member_id memberId, member_name memberName FROM member WHERE member_id = ? AND member_pw = PASSWORD(?)";
+		String sql = "SELECT member_no memberNo, member_id memberId, member_pw memberPw, member_name memberName, member_level memberLevel FROM member WHERE member_id = ? AND member_pw = PASSWORD(?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, paramMember.getMemberId());
 		stmt.setString(2, paramMember.getMemberPw());
@@ -21,13 +21,13 @@ public class MemberDao {
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()) {	//일치한다면
 			resultMember = new Member();
+			resultMember.setMemberNo(rs.getInt("memberNo"));
 			resultMember.setMemberId(rs.getString("memberId"));
 			resultMember.setMemberName(rs.getString("memberName"));
+			resultMember.setMemberLevel(rs.getInt("memberLevel"));
 		}
 		
-		rs.close();
-		stmt.close();
-		conn.close();
+		dbUtil.close(rs, stmt, conn);
 		return resultMember;
 	}
 	
@@ -48,11 +48,30 @@ public class MemberDao {
 			row = 1;
 		}
 		
-		rs.close();
-		stmt.close();
-		conn.close();
+		dbUtil.close(rs, stmt, conn);
 		return row;
 	}
+	/*
+	// true: 아이디 이미 존재, false: 사용 가능
+	public boolean selectMemberIdCheck(String memberId) throws Exception{
+		boolean result = false;
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		String sql = "SELECT member_id FROM member WHERE member_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, memberId);
+		
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()){
+			result = true;
+		}
+		
+		dbUtil.close(rs, stmt, conn);
+		return result;
+	}
+	 */
 	
 	// 회원가입
 	public int signUpMember(Member paramMember) throws Exception{
@@ -69,11 +88,14 @@ public class MemberDao {
 		stmt.setString(3, paramMember.getMemberName());
 		
 		resultRow = stmt.executeUpdate();
+		
+		// rs 없어서 null
+		dbUtil.close(null, stmt, conn);
 		return resultRow;	// 성공하면 1
 	}
 	
 	// 비밀번호 일치 확인
-	public int selectMemberPw(String memberId, String memberPw) throws Exception{
+	public int selectMemberPw(Member paramMember) throws Exception{
 		int row = 0;
 		
 		DBUtil dbUtil = new DBUtil();
@@ -81,8 +103,8 @@ public class MemberDao {
 		
 		String sql = "SELECT * FROM member WHERE member_id = ? AND member_pw = PASSWORD(?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, memberId);
-		stmt.setString(2, memberPw);
+		stmt.setString(1, paramMember.getMemberId());
+		stmt.setString(2, paramMember.getMemberPw());
 		
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()) {	//비밀번호가 일치한다면
@@ -117,24 +139,22 @@ public class MemberDao {
 	}
 	
 	// 회원 정보 수정
-	public int updateMember(String memberName, String memberId, String memberPw) throws Exception{
+	public int updateMember(Member paramMember) throws Exception{
 		int row = 0;
 		
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		String sql = "UPDATE member\r\n"
-				+ "SET member_name = ?\r\n"
-				+ "WHERE member_id = ? AND member_pw = PASSWORD(?)";
+				+ "SET member_name = ?, updatedate = CURDATE() \r\n"
+				+ "WHERE member_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, memberName);
-		stmt.setString(2, memberId);
-		stmt.setString(3, memberPw);
+		stmt.setString(1, paramMember.getMemberName());
+		stmt.setInt(2, paramMember.getMemberNo());
 		
 		// 성공하면 row == 1
 		row=stmt.executeUpdate();
 		
-		stmt.close();
-		conn.close();
+		dbUtil.close(null, stmt, conn);
 		return row;
 	}
 }
