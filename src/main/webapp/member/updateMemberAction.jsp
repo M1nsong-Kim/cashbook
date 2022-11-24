@@ -30,11 +30,16 @@
 	String memberName = request.getParameter("memberName");
 	String memberPw = request.getParameter("memberPw");
 	
+	// 비밀번호 일치 매개 변수 / 수정한 session에 넣을 값이라 다 설정해줘야 함
 	Member paramMember = new Member();
 	paramMember.setMemberNo(loginMember.getMemberNo());
 	paramMember.setMemberId(memberId);
-	paramMember.setMemberName(memberName);
 	paramMember.setMemberPw(memberPw);
+	paramMember.setMemberName(memberName);
+	paramMember.setMemberLevel(loginMember.getMemberLevel());
+	paramMember.setUpdatedate(loginMember.getUpdatedate());
+	paramMember.setCreatedate(loginMember.getCreatedate());
+	
 	
 	MemberDao memberDao = new MemberDao();
 
@@ -57,6 +62,8 @@
 	int check = memberDao.updateMember(paramMember);
 	if(check == 1){
 		System.out.println("회원정보 변경 성공");
+		// 수정 성공 -> ★★★★★★★session에 저장된 값 바꾸기★★★★★★★
+		session.setAttribute("loginMember", paramMember);
 	}else {
 		System.out.println("회원정보 변경 실패");
 		String msg = URLEncoder.encode("회원 정보 변경에 실패하였습니다.", "UTF-8");
