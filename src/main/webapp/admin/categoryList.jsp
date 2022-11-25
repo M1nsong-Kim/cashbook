@@ -27,7 +27,7 @@
 		<li><a href="<%=request.getContextPath()%>/admin/memberList.jsp">멤버관리(목록, 레벨 수정, 강제탈퇴)</a></li>
 	</ul>
 	<div>
-		<!-- adminMain content -->
+		<!-- categoryList content -->
 	</div>
 </body>
 </html>

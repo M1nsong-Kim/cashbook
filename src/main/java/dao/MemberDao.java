@@ -1,10 +1,97 @@
 package dao;
 
 import java.sql.*;
+import java.util.*;
 import util.DBUtil;
 import vo.Member;
 
 public class MemberDao {
+	// 관리자 : 멤버등급수정
+	public int updateMemberLevel(Member member) {
+		return 0;
+	}
+	
+	// 관리자: 멤버 수
+	public int selectMemberCount() throws Exception{
+		int count = 0;
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "SELECT COUNT(*)\r\n"
+				+ "FROM member";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			count=rs.getInt("COUNT(*)");
+		}
+		return count;
+	}
+	
+	// 관리자: 멤버 리스트
+	public ArrayList<Member> selectMemberListByPage(int beginRow, int rowPerPage) throws Exception{
+		ArrayList<Member> list = new ArrayList<>();
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "SELECT member_no memberNo\r\n"
+				+ "	, member_id memberId\r\n"
+				+ "	, member_level memberLevel\r\n"
+				+ "	, member_name memberName\r\n"
+				+ "	, updatedate\r\n"
+				+ "	,createdate\r\n"
+				+ "FROM member\r\n"
+				+ "ORDER BY createdate DESC\r\n"
+				+ "LIMIT ?, ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, beginRow);
+		stmt.setInt(2, rowPerPage);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			Member m = new Member();
+			m.setMemberNo(rs.getInt("memberNo"));
+			m.setMemberId(rs.getString("memberId"));
+			m.setMemberLevel(rs.getInt("memberLevel"));
+			m.setMemberName(rs.getString("memberName"));
+			m.setUpdatedate(rs.getString("updatedate"));
+			m.setCreatedate(rs.getString("createdate"));
+			list.add(m);
+		}
+		return list;
+	}
+	
+	// 관리자: 멤버 강퇴
+	public int deleteMemberByAdmin(int memberNo) throws Exception{
+		return 0;
+	}
+	
+	// 관리자: 입력 회원 번호에 해당하는 member 객체 뽑기
+	public Member selectMember(int memberNo) throws Exception{
+		Member member = new Member();
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "SELECT member_id memberId\r\n"
+				+ "	, member_name memberName\r\n"
+				+ "	, member_level memberLevel\r\n"
+				+ "	, updatedate\r\n"
+				+ "	, createdate\r\n"
+				+ "FROM member\r\n"
+				+ "WHERE member_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, memberNo);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			member.setMemberId(rs.getString("memberId"));
+			member.setMemberName(rs.getString("memberName"));
+			member.setMemberLevel(rs.getInt("memberLevel"));
+			member.setUpdatedate(rs.getString("updatedate"));
+			member.setCreatedate(rs.getString("createdate"));
+		}
+		return member;
+	}
+		
+	// 회원 탈퇴
+	public int deleteMember(int memberNo) throws Exception{
+		return 0;
+	}
+	
 	// 로그인 - id, pw 받음 ->Member타입
 	public Member login(Member paramMember) throws Exception{	
 		Member resultMember = null;
@@ -157,4 +244,6 @@ public class MemberDao {
 		dbUtil.close(null, stmt, conn);
 		return row;
 	}
+
+	
 }
