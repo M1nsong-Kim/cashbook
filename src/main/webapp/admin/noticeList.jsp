@@ -17,12 +17,17 @@
 	if(request.getParameter("currentPage") != null){
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	int rowPerPage = 5;
+	int rowPerPage = 10;	//한 페이지당 보여줄 개수
 	int beginRow = (currentPage-1)*rowPerPage;
-	
+	int pageList = 10;	//한 번에 보여줄 페이지
+	int startPage = ((currentPage-1)/pageList) * pageList +1;	//1
+	int endPage = startPage * pageList - 1 ;	//10
 	// 마지막 페이지 구하기
 	int noticeCount = noticeDao.selectNoticeCount();
 	int lastPage = (int)(Math.ceil((double)noticeCount/rowPerPage));
+	if(endPage > lastPage){	// 마지막 페이지를 넘어가지 않도록
+		endPage = lastPage;
+	}
 	
 	ArrayList<Notice> list = noticeDao.selectNoticeListByPage(beginRow, rowPerPage);
 	
@@ -79,9 +84,17 @@
 				<a href="<%=request.getContextPath()%>/admin/noticeList.jsp?currentPage=<%=currentPage-1%>">◀</a>
 				<%
 			}
-		%>
-		<span><%=currentPage%></span>
-		<%
+			for(int i = startPage; i <= endPage; i++){
+				if(i == currentPage){
+					%>
+					<strong><a href="<%=request.getContextPath()%>/admin/noticeList.jsp?currentPage=<%=i%>"><%=i%></a></strong>
+					<%
+				}else {
+					%>
+					<a href="<%=request.getContextPath()%>/admin/noticeList.jsp?currentPage=<%=i%>"><%=i%></a>
+					<%
+				}
+			}
 			if(currentPage < lastPage){
 				%>
 				<a href="<%=request.getContextPath()%>/admin/noticeList.jsp?currentPage=<%=currentPage+1%>">▶</a>

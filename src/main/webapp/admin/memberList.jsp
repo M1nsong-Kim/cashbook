@@ -14,8 +14,18 @@
 	if(request.getParameter("currentPage") != null){
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	int rowPerPage = 5;
+	int rowPerPage = 5;	// 한 페이지당 보여줄 개수
+	int pageList = 10;	// 페이지 10개씩 보여주기 n1~(n+1)0
 	int beginRow = (currentPage-1)*rowPerPage;
+	int startPage = ((currentPage-1)/pageList)*pageList+1;	//n1
+	int endPage = startPage + pageList -1;	//(n+1)0
+	MemberDao memberDao = new MemberDao();
+	ArrayList<Member> list = memberDao.selectMemberListByPage(beginRow, rowPerPage); // model 호출
+	int memberCount = memberDao.selectMemberCount();
+	int lastPage = (int)(Math.ceil((double)memberCount/rowPerPage));	// model 호출
+	if(endPage > lastPage){	// 마지막 페이지를 넘어서 가지 않도록
+		endPage = lastPage;
+	}
 	
 	// 비밀번호 틀려서 받아올 메시지 있다면 받기
 	String msg = null;
@@ -23,10 +33,6 @@
 		msg = request.getParameter("msg");		
 	}
 
-	MemberDao memberDao = new MemberDao();
-	ArrayList<Member> list = memberDao.selectMemberListByPage(beginRow, rowPerPage); // model 호출
-	int memberCount = memberDao.selectMemberCount();
-	int lastPage = (int)(Math.ceil((double)memberCount/rowPerPage));	// model 호출
 	
 	// view
 %>
@@ -34,7 +40,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>멤버 목록</title>
 </head>
 <body>
 	<!-- 메뉴 페이지 -->
@@ -98,9 +104,18 @@
 		%>
 				<a href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=<%=currentPage-1%>">◀</a>
 		<%
+			}for(int i = startPage; i <= endPage; i++){
+				if(i == currentPage){	//현재 페이지 굵게
+					%>
+					<strong><a href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=<%=i%>"><%=i%></a></strong>
+					<%
+				}else {
+				%>
+					<a href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=<%=i%>"><%=i%></a>
+				<%
+				}
 			}
 		%>
-		<span><%=currentPage%></span>
 		<%
 			if(currentPage < lastPage){
 		%>
