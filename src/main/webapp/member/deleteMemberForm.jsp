@@ -13,6 +13,11 @@
 	
 	Member loginMember = (Member)session.getAttribute("loginMember");
 	String memberId = loginMember.getMemberId();
+	
+	String msg = null;
+	if(request.getParameter("msg") != null){
+		msg = request.getParameter("msg");
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -23,6 +28,13 @@
 <body>
 	<div>
 		<form method="post" action="<%=request.getContextPath()%>/member/deleteMemberAction.jsp">
+			<%
+				if(msg != null){
+					%>
+					<span><%=msg%></span>
+					<%
+				}
+			%>
 			<table>
 				<tr>
 					<td>아이디</td>
@@ -37,6 +49,7 @@
 					</td>
 				</tr>
 			</table>
+			<button type="submit">회원탈퇴</button>
 		</form>
 	</div>
 </body>

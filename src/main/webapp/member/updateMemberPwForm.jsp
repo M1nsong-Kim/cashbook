@@ -18,6 +18,10 @@
 <title>비밀번호 수정</title>
 </head>
 <body>
+	<!-- 메뉴 페이지 -->
+	<div>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
+	</div>
 	<div>
 		<form method="post" action="<%=request.getContextPath()%>/member/updateMemberPwAction.jsp">
 			<table>

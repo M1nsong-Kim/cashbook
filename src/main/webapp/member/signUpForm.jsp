@@ -52,6 +52,8 @@
 			</table>
 			<button type="submit">회원가입</button>
 		</form>
+		<span>이미 회원이신가요?</span>
+		<a href="<%=request.getContextPath()%>/loginForm.jsp">로그인창으로 돌아가기</a>
 	</div>
 </body>
 </html>

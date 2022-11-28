@@ -17,12 +17,17 @@
 	int rowPerPage = 5;
 	int beginRow = (currentPage-1)*rowPerPage;
 	
+	// 비밀번호 틀려서 받아올 메시지 있다면 받기
+	String msg = null;
+	if(request.getParameter("msg") != null){
+		msg = request.getParameter("msg");		
+	}
 
 	MemberDao memberDao = new MemberDao();
 	ArrayList<Member> list = memberDao.selectMemberListByPage(beginRow, rowPerPage); // model 호출
 	int memberCount = memberDao.selectMemberCount();
 	int lastPage = (int)(Math.ceil((double)memberCount/rowPerPage));	// model 호출
-
+	
 	// view
 %>
 <!DOCTYPE html>
@@ -32,12 +37,24 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<!-- 메뉴 페이지 -->
+	<div>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
+	</div>
 	<ul>
 		<li><a href="<%=request.getContextPath()%>/admin/noticeList.jsp">공지관리</a></li>
 		<li><a href="<%=request.getContextPath()%>/admin/categoryList.jsp">카테고리관리</a></li>
 		<li><a href="<%=request.getContextPath()%>/admin/memberList.jsp">멤버관리(목록, 레벨 수정, 강제탈퇴)</a></li>
 	</ul>
 	<div>
+		<!-- 나중에 메시지로 띄울 거라서 -->
+		<%
+			if(msg != null){
+				%>
+					<span><%=msg%></span>
+				<%
+			}
+		%>
 		<!-- memberList content -->
 		<h3>멤버 목록</h3>
 		<table>
@@ -65,7 +82,7 @@
 							<a href="<%=request.getContextPath()%>/admin/updateMemberLevelForm.jsp?memberNo=<%=m.getMemberNo()%>">등급수정</a>
 						</td>
 						<td>
-							<a href="<%=request.getContextPath()%>/admin/deleteMemberForm.jsp">강제탈퇴</a>
+							<a href="<%=request.getContextPath()%>/admin/deleteMemberForm.jsp?memberNo=<%=m.getMemberNo()%>">강제탈퇴</a>
 						</td>
 					</tr>
 			<%

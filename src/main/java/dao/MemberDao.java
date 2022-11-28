@@ -2,13 +2,30 @@ package dao;
 
 import java.sql.*;
 import java.util.*;
-import util.DBUtil;
-import vo.Member;
+import util.*;
+import vo.*;
 
 public class MemberDao {
 	// 관리자 : 멤버등급수정
-	public int updateMemberLevel(Member member) {
-		return 0;
+	public int updateMemberLevel(Member member) throws Exception{
+		int row = 0;
+		String sql = "UPDATE member\r\n"
+				+ "SET member_level = ?\r\n"
+				+ "WHERE member_id = ?";
+		
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		conn = dbUtil.getConnection();
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, member.getMemberLevel());
+		stmt.setString(2, member.getMemberId());
+		
+		row = stmt.executeUpdate();
+		
+		dbUtil.close(null, stmt, conn);
+		return row;
 	}
 	
 	// 관리자: 멤버 수
@@ -57,9 +74,23 @@ public class MemberDao {
 		return list;
 	}
 	
-	// 관리자: 멤버 강퇴
-	public int deleteMemberByAdmin(int memberNo) throws Exception{
-		return 0;
+	// 관리자: 멤버 강퇴 / 회원: 본인 계정 탈퇴
+	public int deleteMember(int memberNo) throws Exception{
+		int row = 0;
+		String sql = "DELETE FROM member\r\n"
+				+ "WHERE member_no = ?";
+		
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		conn = dbUtil.getConnection();
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, memberNo);
+		row = stmt.executeUpdate();
+		
+		dbUtil.close(null, stmt, conn);
+		return row;
 	}
 	
 	// 관리자: 입력 회원 번호에 해당하는 member 객체 뽑기
@@ -87,11 +118,6 @@ public class MemberDao {
 		return member;
 	}
 		
-	// 회원 탈퇴
-	public int deleteMember(int memberNo) throws Exception{
-		return 0;
-	}
-	
 	// 로그인 - id, pw 받음 ->Member타입
 	public Member login(Member paramMember) throws Exception{	
 		Member resultMember = null;

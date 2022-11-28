@@ -55,6 +55,10 @@
 <title>가계부 상세보기</title>
 </head>
 <body>
+	<!-- 메뉴 페이지 -->
+	<div>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
+	</div>
 	<div>
 		<%=year%>년 <%=month%>월 <%=date%>일
 	</div>

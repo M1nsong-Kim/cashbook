@@ -29,10 +29,14 @@
 	String updatePw = request.getParameter("updatePw");
 	String updatePwCheck = request.getParameter("updatePwCheck");
 	
+	// 모델 호출
 	MemberDao memberDao = new MemberDao();
+	Member paramMember = new Member();
+	paramMember.setMemberId(memberId);
+	paramMember.setMemberPw(currentPw);
 	
 	// 기존 비밀번호 일치 확인
-	int checkCurrentPw = memberDao.selectMemberPw(memberId, currentPw);
+	int checkCurrentPw = memberDao.selectMemberPw(paramMember);
 	if(checkCurrentPw == 0){	//일치하지 않는다면
 		String msgCurrentPw = URLEncoder.encode("비밀번호를 정확하게 입력해 주세요.", "UTF-8");
 		response.sendRedirect(request.getContextPath()+"/member/updateMemberPwForm.jsp?msgCurrentPw="+msgCurrentPw);

@@ -18,15 +18,15 @@
 		return;
 	}
 	
-	// 비밀번호 틀려서 받아올 메시지 있다면 받기
+	int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+	MemberDao memberDao = new MemberDao();
+	Member member = memberDao.selectMember(memberNo);
+	
+	// 받아올 메시지 있다면 받기
 	String msg = null;
 	if(request.getParameter("msg") != null){
 		msg = request.getParameter("msg");		
 	}
-	
-	int memberNo = Integer.parseInt(request.getParameter("memberNo"));
-	MemberDao memberDao = new MemberDao();
-	Member member = memberDao.selectMember(memberNo);
 	
 %>
 <!DOCTYPE html>
@@ -36,12 +36,27 @@
 <title>회원 등급 수정</title>
 </head>
 <body>
+	<!-- 메뉴 페이지 -->
+	<div>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
+	</div>
 	<div>
 		<form method="post" action="<%=request.getContextPath()%>/admin/updateMemberLevelAction.jsp?memberNo=<%=memberNo%>">
+			<!-- 나중에 메시지로 띄울 거라서 -->
+			<%
+				if(msg != null){
+					%>
+						<span><%=msg%></span>
+					<%
+				}
+			%>
 			<table>
 				<tr>
 					<td>아이디</td>
-					<td><%=member.getMemberId()%></td>
+					<td>
+						<%=member.getMemberId()%>
+						<input type="hidden" name="memberNo" value="<%=member.getMemberNo()%>">
+					</td>
 				</tr>
 				<tr>
 					<td>이름</td>
@@ -70,13 +85,6 @@
 					<td>관리자 비밀번호</td>
 					<td>
 						<input type="password" name="adminPw">
-						<%
-							if(msg != null){
-								%>
-									<span><%=msg%></span>
-								<%
-							}
-						%>
 					</td>
 				</tr>
 			</table>

@@ -21,6 +21,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<!-- 메뉴 페이지 -->
+	<div>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
+	</div>
 	<ul>
 		<li><a href="<%=request.getContextPath()%>/admin/noticeList.jsp">공지관리</a></li>
 		<li><a href="<%=request.getContextPath()%>/admin/categoryList.jsp">카테고리관리</a></li>

@@ -23,6 +23,10 @@
 <title>내 정보</title>
 </head>
 <body>
+	<!-- 메뉴 페이지 -->
+	<div>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
+	</div>
 	<div>
 		<h3>내 정보</h3>
 		<table>

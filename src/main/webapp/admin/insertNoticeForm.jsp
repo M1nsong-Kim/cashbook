@@ -19,6 +19,10 @@
 <title>공지 추가</title>
 </head>
 <body>
+	<!-- 메뉴 페이지 -->
+	<div>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
+	</div>
 	<div>
 		<form method="post" action="<%=request.getContextPath()%>/admin/insertNoticeAction.jsp">
 			<table>
