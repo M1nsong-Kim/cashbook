@@ -18,6 +18,7 @@
 	<%
 		}
 	%>
+	<a href="<%=request.getContextPath()%>/">고객센터</a>
 	<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
 </body>
 </html>
