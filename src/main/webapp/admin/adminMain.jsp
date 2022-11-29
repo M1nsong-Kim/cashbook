@@ -13,11 +13,13 @@
 	// model 호출
 	NoticeDao noticeDao = new NoticeDao();
 	MemberDao memberDao = new MemberDao();
+	HelpDao helpDao = new HelpDao();
 	// 최근공지 5개, 최근멤버 5명
 	int beginRow = 0;
 	int rowPerPage = 5;
 	ArrayList<Notice> noticeList = noticeDao.selectNoticeListByPage(beginRow, rowPerPage);
 	ArrayList<Member> memberList = memberDao.selectMemberListByPage(beginRow, rowPerPage);
+	ArrayList<HashMap<String, Object>> helpList = helpDao.selectHelpList(beginRow, rowPerPage);
 	
 	// view
 %>
@@ -36,10 +38,8 @@
 		<li><a href="<%=request.getContextPath()%>/admin/noticeList.jsp">공지관리</a></li>
 		<li><a href="<%=request.getContextPath()%>/admin/categoryList.jsp">카테고리관리</a></li>
 		<li><a href="<%=request.getContextPath()%>/admin/memberList.jsp">멤버관리(목록, 레벨 수정, 강제탈퇴)</a></li>
+		<li><a href="<%=request.getContextPath()%>/admin/helpListAll.jsp">문의관리</a></li>
 	</ul>
-	<div>
-		<!-- adminMain content -->
-	</div>
 	<!-- 최근 공지 5개 -->
 	<div>
 		<h3>최근 공지</h3>
@@ -84,6 +84,44 @@
 					<td><%=m.getCreatedate()%></td>
 				</tr>
 			<%
+			}
+			%>
+		</table>
+	</div>
+	
+	<!-- 최근 문의 5개 -->
+	<div>
+		<h3>최근 문의</h3>
+		<table>
+			<tr>
+				<th>문의내용</th>
+				<th>아이디</th>
+				<th>문의날짜</th>
+				<th>답변내용</th>
+				<th>답변날짜</th>
+			</tr>
+			<%
+			for(HashMap<String, Object> m : helpList){
+				%>
+				<tr>
+					<td><%=m.get("helpMemo")%></td>
+					<td><%=m.get("memberId")%></td>
+					<td><%=m.get("createdateHelp")%></td>
+					<%
+						// 답변이 없다면 (--> 답변 날짜가 없다면)
+						if(m.get("commentMemo") == null){
+							%>
+							<td colspan="2">답변 대기</td>
+							<%
+						}else {
+							%>
+							<td><%=m.get("commentMemo")%></td>
+							<td><%=m.get("createdateComment")%></td>
+							<%
+						}
+					%>
+				</tr>
+				<%
 			}
 			%>
 		</table>
