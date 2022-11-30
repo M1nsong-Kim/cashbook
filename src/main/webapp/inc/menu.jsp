@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="vo.*" %>
+<%
+	// 로그인 확인
+	Member loginMember = (Member)session.getAttribute("loginMember");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,18 +11,72 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="<%=request.getContextPath()%>/cash/cashList.jsp">가계부</a>
-	<a href="<%=request.getContextPath()%>/member/memberPage.jsp">내 정보</a>
-	<%
-		Member loginMember = (Member)session.getAttribute("loginMember");
-		// 관리자라면
-		if(loginMember.getMemberLevel() > 0){
-	%>
-			<a href="<%=request.getContextPath()%>/admin/adminMain.jsp">관리자 페이지</a>
-	<%
-		}
-	%>
-	<a href="<%=request.getContextPath()%>/help/helpMain.jsp">고객센터</a>
-	<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	  <div class="container-fluid">
+	    <a class="navbar-brand" href="#">나만의 가계부</a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarColor02">
+	      <ul class="navbar-nav me-auto">
+	        <li class="nav-item">
+	          <a class="nav-link" href="<%=request.getContextPath()%>/cash/cashList.jsp">내 가계부
+	          </a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href="<%=request.getContextPath()%>/member/memberPage.jsp">마이페이지</a>
+	        </li>
+	        
+	        
+	        <li class="nav-item dropdown">
+				<%
+					if(loginMember != null){
+						
+						// 관리자라면
+						if(loginMember.getMemberLevel() > 0){
+					%>
+				          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">관리자페이지</a>
+				          <div class="dropdown-menu">
+				          	<a class="dropdown-item" href="<%=request.getContextPath()%>/admin/adminMain.jsp">관리자메인</a>
+				          	<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="<%=request.getContextPath()%>/admin/noticeList.jsp">공지관리</a>
+							<a class="dropdown-item" href="<%=request.getContextPath()%>/admin/categoryList.jsp">카테고리관리</a>
+							<a class="dropdown-item" href="<%=request.getContextPath()%>/admin/memberList.jsp">멤버관리(목록, 레벨 수정, 강제탈퇴)</a>
+							<a class="dropdown-item" href="<%=request.getContextPath()%>/admin/helpListAll.jsp">문의관리</a>
+				          </div>
+					<%
+						}
+					}
+				%>
+	        </li>
+	        
+	        
+        
+        
+        
+	        <li class="nav-item">
+				<a class="nav-link" href="<%=request.getContextPath()%>/help/helpMain.jsp">고객센터</a>
+			</li>
+	      </ul>
+	      <!-- 오른쪽 -->
+	      <span class="d-flex nav-item">
+	      <%
+	      	// 로그인하지 않았다면
+	      	if(loginMember == null){
+	  	      %>
+	      		<a class="nav-link" href="<%=request.getContextPath()%>/loginForm.jsp">로그인</a>
+	      		<span>&nbsp;</span>
+	      		<a class="nav-link" href="<%=request.getContextPath()%>/member/signUpForm.jsp">회원가입</a>
+	      		<%
+	      	}else {
+	      		%>
+				<a class="nav-link" href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
+	      		<%
+	      	}
+	      %>
+	      </span>
+	    </div>
+	  </div>
+	</nav>
 </body>
 </html>

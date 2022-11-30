@@ -72,24 +72,31 @@
 <head>
 <meta charset="UTF-8">
 <title>내 가계부</title>
+	<!-- 템플릿 적용 -->
+	<link rel="stylesheet" type="text/css"  href="<%=request.getContextPath()%>/css/Minty/bootstrap.css">
+	<link rel="stylesheet" type="text/css"  href="<%=request.getContextPath()%>/css/Minty/bootstrap.min.css">
+</head>
+<style>
+	td{
+		width: 14%;
+		height: 10rem;
+	}
+</style>
+<!-- 드롭다운을 위해 -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </head>
 <body>
+	<!-- 메뉴 페이지 -->
 	<div>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
+	</div>
+	<div class="text-center">
 		<!-- 로그인 정보(세션 loginMember 변수) -->
-		<span><%=loginMemberName%> 님 반갑습니다.</span>
-		<span>&nbsp;</span>
-		<a href="<%=request.getContextPath()%>/member/memberPage.jsp">내정보</a>
-		<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
-		<%
-			if(loginMember.getMemberLevel() > 0){
-		%>
-				<a href="<%=request.getContextPath()%>/admin/adminMain.jsp">관리자 페이지</a>
-		<%
-			}
-		%>
+		<span><strong><%=loginMemberName%></strong> 님의 가계부</span>
 	</div>
 	
-	<div>
+	<div class="text-center">
 		<a href="<%=request.getContextPath()%>/cash/cashList.jsp?year=<%=year%>&month=<%=month-1%>">이전달</a>
 		<%=year%>년 <%=month+1%>월
 		<a href="<%=request.getContextPath()%>/cash/cashList.jsp?year=<%=year%>&month=<%=month+1%>">다음달</a>
@@ -97,8 +104,8 @@
 	
 	<div>
 		<!-- 달력 -->
-		<table>
-			<tr>
+		<table class="container table">
+			<tr class="text-center">
 				<th>일</th>
 				<th>월</th>
 				<th>화</th>
@@ -117,7 +124,7 @@
 						if( date > 0 && date <= lastDate){
 						%>
 							<div>
-								<a href="<%=request.getContextPath()%>/cash/cashDateList.jsp?year=<%=year%>&month=<%=month+1%>&date=<%=date%>">
+								<a href="<%=request.getContextPath()%>/cash/cashDateList.jsp?year=<%=year%>&month=<%=month+1%>&date=<%=date%>" style="color:#888888;">
 									<%=date%>
 								</a>
 							</div>
@@ -127,10 +134,10 @@
 									for(HashMap<String, Object> m : list){
 										String cashDate = (String)(m.get("cashDate"));
 										if(Integer.parseInt(cashDate.substring(8)) == date){
-											if(m.get("categoryKind").equals("수입")){		// 수입 -> 파란색
+											if(m.get("categoryKind").equals("수입")){		// 수입 -> 민트색
 											%>
 												<div>
-												<span style="color:blue">
+												<span style="color:var(--bs-primary)">
 											<%
 								%>
 												[<%=(String)m.get("categoryKind")%>]
@@ -142,7 +149,7 @@
 											}else {
 											%>
 												<div>
-												<span style="color:red">
+												<span style="color:var(--bs-secondary)">
 											<%
 								%>
 												[<%=(String)m.get("categoryKind")%>]

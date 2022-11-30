@@ -9,7 +9,7 @@ public class HelpDao {
 	// 문의 추가
 	
 	// 문의 수정
-	// 문의 하나씩 보기
+	// 1) 문의 하나씩 보기
 	public HashMap<String, Object> selectInquiryOne(int helpNo) throws Exception{
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		String sql = "SELECT help_memo helpMemo\r\n"
@@ -38,7 +38,12 @@ public class HelpDao {
 		return map;
 	}
 	
-	// 문의 수정 수행
+	// 2) 문의 수정 수행
+	public int updateHelp(int helpNo) throws Exception{
+		int row = 0;
+		
+		return row;
+	}
 	
 	// 문의 삭제
 	

@@ -35,13 +35,35 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
+	<!-- 템플릿 적용 -->
+	<link rel="stylesheet" type="text/css"  href="<%=request.getContextPath()%>/css/Minty/bootstrap.css">
+	<link rel="stylesheet" type="text/css"  href="<%=request.getContextPath()%>/css/Minty/bootstrap.min.css">
 </head>
 <body>
-	<!-- 공지(5개) 목록 페이징 -->
+	<!-- 메뉴 페이지 -->
 	<div>
-		<table>
-			<tr>
-				<td>공지내용</td>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
+	</div>
+	<!-- 로그인 -->
+	<div style="margin-bottom: 2.5rem;">
+		<form method="post" action="<%=request.getContextPath()%>/loginAction.jsp">
+			<div class="card border-secondary mb-3 container " style="max-width: 20rem;">
+			  <div class="card-header">로그인</div>
+			  <div class="card-body">
+				<input type="text" name="memberId" class="form-control" id="inputDefault" placeholder="ID를 입력하세요">
+				<input type="password" name="memberPw" class="form-control" id="exampleInputPassword1" placeholder="비밀번호를 입력하세요">
+			  </div>
+				<button type="submit" class="btn btn-primary">로그인</button>
+				<span class="text-center">회원이 아니신가요?</span>
+				<a class="text-center" href="<%=request.getContextPath()%>/member/signUpForm.jsp">회원가입</a>
+			</div>
+		</form>
+	</div>
+	<!-- 공지(5개)-->
+	<div>
+		<table class="container table table-hover">
+			<tr class="table-secondary">
+				<td scope="row">공지내용</td>
 				<td>날짜</td>
 			</tr>
 			<%
@@ -55,50 +77,58 @@
 				}
 			%>
 		</table>
-
-		<a href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=1">&#9194;</a>
-		<%
-			if(currentPage > 1){
-		%>
-				<a href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=<%=currentPage-1%>">◀</a>
-		<%
-			}
-			for(int i = startPage; i <= endPage; i++){
-				if(i == currentPage){	// 현재 페이지는
-					%>
-					<!-- 굵게 -->
-					<strong><a href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=<%=i%>"><%=i%></a></strong>
-					<%
-				}else {
-					%>
-					<a href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=<%=i%>"><%=i%></a>
-					<%
+		
+		<!-- 페이징 -->
+		<div class="container">
+		  <ul class="pagination justify-content-center">
+		    <li class="page-item">
+		      <a class="page-link" href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=1">&laquo;</a>
+		    </li>
+		    
+		    <li class="page-item">
+			    <%
+				if(currentPage > 10){
+				%>
+					<a class="page-link" href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=<%=startPage-1%>">&lt;</a>
+				<%
 				}
-			}
-		%>
-		<%
-			if(currentPage < lastPage){
-		%>
-				<a href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=<%=currentPage+1%>">▶</a>
-		<%
-			}
-		%>
-		<a href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=<%=lastPage%>">&#9193;</a>
-	</div>
-	
-	<div>
-		<form method="post" action="<%=request.getContextPath()%>/loginAction.jsp">
-			<h3>로그인</h3>	
-			<div><input type="text" name="memberId" placeholder="ID를 입력하세요"></div>
-			<div><input type="password" name="memberPw" placeholder="비밀번호를 입력하세요"></div>
-			<div>
-				<button type="submit">로그인</button>
-			</div>
-		</form>
-		<div>
-			<span>회원이 아니신가요?</span>
-			<a href="<%=request.getContextPath()%>/member/signUpForm.jsp">회원가입</a>
+			    %>
+		    </li>
+		    
+		    <li class="page-item">
+		    	<span class="page-link">
+		    	<%
+			    for(int i = startPage; i <= endPage; i++){
+					if(i == currentPage){	// 현재 페이지는
+						%>
+						<strong><a href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=<%=i%>" style="background-color:var(--bs-pagination-hover-bg); color:white; text-decoration:none;"><%=i%></a></strong>
+						<%
+					}else {
+						%>
+						<a href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=<%=i%>" style="color:white; text-decoration:none;"><%=i%></a>
+						<%
+					}
+				}
+		    	%>
+		    	</span>
+		    </li>
+		    
+		    <li class="page-item">
+			    <%
+				if(currentPage < lastPage){
+				%>
+					<a class="page-link" href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=<%=startPage+10%>">&gt;</a>
+				<%
+				}
+				%>
+		    </li>
+		    
+		    <li class="page-item">
+		    	<a class="page-link" href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=<%=lastPage%>">&raquo;</a>
+		    </li>
+		  </ul>
 		</div>
 	</div>
+
 </body>
 </html>
