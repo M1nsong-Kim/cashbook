@@ -27,46 +27,55 @@
 	<!-- 템플릿 적용 -->
 	<link rel="stylesheet" type="text/css"  href="<%=request.getContextPath()%>/css/Minty/bootstrap.css">
 	<link rel="stylesheet" type="text/css"  href="<%=request.getContextPath()%>/css/Minty/bootstrap.min.css">
+<!-- 드롭다운을 위해 -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </head>
 <body>
 	<!-- 메뉴 페이지 -->
 	<div>
 		<jsp:include page="/inc/menu.jsp"></jsp:include>
 	</div>
-	<div>
-		<h3>내 문의내역</h3>
-		<table>
-			<tr>
-				<th>문의내용</th>
-				<th>작성날짜</th>
-				<th>상태</th>
-			</tr>
+	
+	<!-- 문의내용 -->
+	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
+		<div class="card-header">내 문의내역</div>
+			<div class="accordion" id="accordionExample">
 			<%
+				int i = 0;
 				for(HashMap<String, Object> m : list){
 					%>
-					<tr>
-						<td><%=m.get("helpMemo")%></td>
-						<td><%=m.get("createdateHelp")%></td>
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="heading<%=i%>">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%=i%>" aria-expanded="false" aria-controls="collapse<%=i%>">
+								<%=m.get("helpMemo")%>
+								<%=m.get("createdateHelp")%>
+							</button>
+						</h2>
+					<div id="collapse<%=i%>" class="accordion-collapse collapse" aria-labelledby="heading<%=i%>" data-bs-parent="#accordionExample">
+						<div class="accordion-body">
 					<%
 					// 답변이 없다면
 					if(m.get("commentMemo") == null){
 					%>
-						<td>
-							<a href="<%=request.getContextPath()%>/help/updateHelpForm.jsp?helpNo=<%=m.get("helpNo")%>">수정</a>
-							<a href="<%=request.getContextPath()%>/help/deleteHelp.jsp?helpNo=<%=m.get("helpNo")%>">삭제</a>
-						</td>
+						<span>답변 대기중</span>
+						<a href="<%=request.getContextPath()%>/help/updateHelpForm.jsp?helpNo=<%=m.get("helpNo")%>">수정</a>
+						<a href="<%=request.getContextPath()%>/help/deleteHelp.jsp?helpNo=<%=m.get("helpNo")%>">삭제</a>
 					<%
 					}else {	//답변이 있다면
 						%>	
-							<td>
-								<a href="<%=request.getContextPath()%>/help/helpComment.jsp">&#128317;</a>
-							</td>
+						<%=m.get("commentMemo")%>
 						<%
 					}
+					i++;
+					%>
+						</div>
+					</div>
+					</div>
+					<%
 				}
 			%>
-					</tr>
-		</table>
+			</div>
 	</div>
 </body>
 </html>

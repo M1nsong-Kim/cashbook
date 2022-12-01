@@ -36,13 +36,12 @@
 	<div>
 		<jsp:include page="/inc/menu.jsp"></jsp:include>
 	</div>
-	<div>
-		<!-- categoryList content -->
-		<h3>카테고리 목록</h3>
-		<a href="<%=request.getContextPath()%>/admin/insertCategoryForm.jsp">카테고리 추가</a>
-		<table>
+	<!-- categoryList content -->
+	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
+		<div class="card-header">카테고리</div>
+		<a href="<%=request.getContextPath()%>/admin/insertCategoryForm.jsp" style="text-align:right;">카테고리 추가</a>
+		<table class="table table-hover">
 			<tr>
-				<th>번호</th>
 				<th>수입/지출</th>
 				<th>이름</th>
 				<th>수정날짜</th>
@@ -55,7 +54,6 @@
 				for(Category c : list){
 			%>
 					<tr>
-						<td><%=c.getCategoryNo()%></td>
 						<td><%=c.getCategoryKind()%></td>
 						<td><%=c.getCategoryName()%></td>
 						<td><%=c.getUpdatedate()%></td>
