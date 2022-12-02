@@ -40,22 +40,29 @@
 	<div>
 		<jsp:include page="/inc/menu.jsp"></jsp:include>
 	</div>
-	<div>
-		<h3>문의 수정하기</h3>
+	
+	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
+		<div class="card-header">문의 수정하기</div>
 		<form method="post" action="<%=request.getContextPath()%>/help/updateHelpAction.jsp?helpNo=<%=helpNo%>">
-			<table>
+			<table class="table">
 				<tr>
 					<td>문의날짜</td>
 					<td><%=map.get("createdate")%></td>
 				</tr>
 				<tr>
-					<td>문의내용</td>
+					<td>제목</td>
+					<td><input type="text" name="helpTitle" value="<%=map.get("helpTitle")%>" class="form-control" id="inputDefault"></td>
+				</tr>
+				<tr>
+					<td>내용</td>
 					<td>
-						<textarea rows="10" cols="50"><%=map.get("helpMemo")%></textarea>
+						<textarea class="form-control" id="exampleTextarea" rows="3" name="helpMemo"><%=map.get("helpMemo")%></textarea>
 					</td>
 				</tr>
 			</table>
-			<button type="submit">수정</button>
+			<div class="text-center">
+				<button type="submit" class="btn btn-primary">수정</button>
+			</div>
 		</form>
 	</div>
 </body>

@@ -39,7 +39,10 @@
 	
 	<!-- 문의내용 -->
 	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
-		<div class="card-header">내 문의내역</div>
+		<div class="card-header">
+			<span>내 문의내역</span>
+			<a href="<%=request.getContextPath()%>/help/insertHelpForm.jsp">문의하기</a>
+		</div>
 			<div class="accordion" id="accordionExample">
 			<%
 				int i = 0;
@@ -48,7 +51,7 @@
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="heading<%=i%>">
 							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%=i%>" aria-expanded="false" aria-controls="collapse<%=i%>">
-								<%=m.get("helpMemo")%>
+								<%=m.get("helpTitle")%>
 								<%=m.get("createdateHelp")%>
 							</button>
 						</h2>
@@ -58,12 +61,15 @@
 					// 답변이 없다면
 					if(m.get("commentMemo") == null){
 					%>
-						<span>답변 대기중</span>
+						<%=m.get("helpMemo")%>
 						<a href="<%=request.getContextPath()%>/help/updateHelpForm.jsp?helpNo=<%=m.get("helpNo")%>">수정</a>
 						<a href="<%=request.getContextPath()%>/help/deleteHelp.jsp?helpNo=<%=m.get("helpNo")%>">삭제</a>
+						<div><strong>답변 대기중</strong></div>
 					<%
 					}else {	//답변이 있다면
 						%>	
+						<%=m.get("helpMemo")%>
+						<div><strong>답변:</strong></div>
 						<%=m.get("commentMemo")%>
 						<%
 					}

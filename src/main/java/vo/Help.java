@@ -2,6 +2,7 @@ package vo;
 
 public class Help {
 	private int helpNo;
+	private String helpTitle;
 	private String helpMemo;
 	private String memberId;
 	private String updatedate;
@@ -12,6 +13,12 @@ public class Help {
 	}
 	public void setHelpNo(int helpNo) {
 		this.helpNo = helpNo;
+	}
+	public String getHelpTitle() {
+		return helpTitle;
+	}
+	public void setHelpTitle(String helpTitle) {
+		this.helpTitle = helpTitle;
 	}
 	public String getHelpMemo() {
 		return helpMemo;

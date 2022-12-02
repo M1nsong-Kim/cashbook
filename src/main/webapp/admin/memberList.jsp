@@ -41,18 +41,20 @@
 <head>
 <meta charset="UTF-8">
 <title>멤버 목록</title>
+	<!-- 템플릿 적용 -->
+	<link rel="stylesheet" type="text/css"  href="<%=request.getContextPath()%>/css/Minty/bootstrap.css">
+	<link rel="stylesheet" type="text/css"  href="<%=request.getContextPath()%>/css/Minty/bootstrap.min.css">
+<!-- 드롭다운을 위해 -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </head>
 <body>
 	<!-- 메뉴 페이지 -->
 	<div>
 		<jsp:include page="/inc/menu.jsp"></jsp:include>
 	</div>
-	<ul>
-		<li><a href="<%=request.getContextPath()%>/admin/noticeList.jsp">공지관리</a></li>
-		<li><a href="<%=request.getContextPath()%>/admin/categoryList.jsp">카테고리관리</a></li>
-		<li><a href="<%=request.getContextPath()%>/admin/memberList.jsp">멤버관리(목록, 레벨 수정, 강제탈퇴)</a></li>
-	</ul>
-	<div>
+	
+	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
 		<!-- 나중에 메시지로 띄울 거라서 -->
 		<%
 			if(msg != null){
@@ -62,8 +64,8 @@
 			}
 		%>
 		<!-- memberList content -->
-		<h3>멤버 목록</h3>
-		<table>
+		<div class="card-header">회원 목록</div>
+		<table class="table">
 			<tr>
 				<th>멤버번호</th>
 				<th>아이디</th>
@@ -96,34 +98,56 @@
 			%>
 		</table>
 	</div>
+	
 	<!-- 페이징 -->
-	<div>
-		<a href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=1">&#9194;</a>
-		<%
-			if(currentPage > 1){
-		%>
-				<a href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=<%=currentPage-1%>">◀</a>
-		<%
-			}for(int i = startPage; i <= endPage; i++){
-				if(i == currentPage){	//현재 페이지 굵게
-					%>
-					<strong><a href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=<%=i%>"><%=i%></a></strong>
-					<%
-				}else {
-				%>
-					<a href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=<%=i%>"><%=i%></a>
+	<div class="container">
+		<ul class="pagination justify-content-center">
+			<li class="page-item">
+				<a class="page-link" href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=1">&laquo;</a>
+			</li>
+			
+			<li class="page-item">
 				<%
-				}
-			}
-		%>
-		<%
-			if(currentPage < lastPage){
-		%>
-				<a href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=<%=currentPage+1%>">▶</a>
-		<%
-			}
-		%>
-		<a href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=<%=lastPage%>">&#9193;</a>
+					if(currentPage > 10){
+				%>
+						<a class="page-link" href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=<%=startPage-1%>">&lt;</a>
+				<%
+					}
+				%>
+			</li>
+			
+			 <li class="page-item">
+			 	<span class="page-link">
+				<%
+				for(int i = startPage; i <= endPage; i++){
+						if(i == currentPage){	//현재 페이지 굵게
+							%>
+							<strong><a href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=<%=i%>" style="background-color:var(--bs-pagination-hover-bg); color:white; text-decoration:none;"><%=i%></a></strong>
+							<%
+						}else {
+						%>
+							<a href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=<%=i%>" style="color:white; text-decoration:none;"><%=i%></a>
+						<%
+						}
+					}
+				%>
+				</span>
+			</li>
+			
+			<li class="page-item">
+				<%
+					if(currentPage < lastPage){
+				%>
+						<a class="page-link" href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=<%=currentPage+1%>">&gt;</a>
+				<%
+					}
+				%>
+			</li>
+			
+			<li class="page-item">
+				<a class="page-link" href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=<%=lastPage%>">&raquo;</a>
+			</li>
+		</ul>
 	</div>
 </body>
 </html>
