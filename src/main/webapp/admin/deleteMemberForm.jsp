@@ -44,9 +44,9 @@
 	<div>
 		<jsp:include page="/inc/menu.jsp"></jsp:include>
 	</div>
-	
 	<!-- 강제탈퇴 -->
-	<div>
+	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
+		<div class="card-header">회원 강제탈퇴</div>
 		<form method="post" action="<%=request.getContextPath()%>/admin/deleteMemberAction.jsp">
 			<!-- 나중에 메시지로 띄울 거라서 -->
 			<%
@@ -56,11 +56,12 @@
 					<%
 				}
 			%>
-			<table>
+			<table class="table">
 				<tr>
 					<td>회원번호</td>
 					<td>
-						<input type="number" name="memberNo" value="<%=memberNo%>" readonly="readonly">
+						<%=memberNo%>
+						<input type="hidden" name="memberNo" value="<%=memberNo%>">
 					</td>
 				</tr>			
 				<tr>
@@ -79,11 +80,13 @@
 				<tr>
 					<td>관리자 비밀번호</td>
 					<td>
-						<input type="password" name="adminPw">
+						<input type="password" name="adminPw" class="form-control" id="exampleInputPassword1">
 					</td>
 				</tr>
 			</table>
-			<button type="submit">강제탈퇴</button>
+			<div class="text-center">
+				<button type="submit" class="btn btn-primary">강제탈퇴</button>
+			</div>
 		</form>
 	</div>
 </body>

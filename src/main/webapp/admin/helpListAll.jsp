@@ -50,39 +50,40 @@
 		<jsp:include page="/inc/menu.jsp"></jsp:include>
 	</div>
 	
-	<!-- 고객센터 문의 리스트 -->
-	<div>
-		<table>
-			<tr>
-				<th>문의내용</th>
-				<th>회원ID</th>
-				<th>문의날짜</th>
-				<th>답변내용</th>
-				<th>답변날짜</th>
-				<th>답변추가/수정/삭제</th>
-			</tr>
+		<!-- 고객센터 문의 리스트 -->
+	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
+		<div class="card-header">문의 목록</div>
+		<div class="accordion" id="accordionExample">
 			<%
+				int num = 0;
 				for(HashMap<String, Object> m : list){
 					%>
-					<tr>
-						<td><%=m.get("helpMemo")%></td>
-						<td><%=m.get("memberId")%></td>
-						<td><%=m.get("createdateHelp")%></td>
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="heading<%=num%>">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%=num%>" aria-expanded="false" aria-controls="collapse<%=num%>">
+								<%=m.get("helpTitle")%>
+								<%=m.get("createdateHelp")%>
+							</button>
+						</h2>
+						<div id="collapse<%=num%>" class="accordion-collapse collapse" aria-labelledby="heading<%=num%>" data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+							<span>작성자: <%=m.get("memberId")%></span>
+							<div><%=m.get("helpMemo")%></div>
+							<br>
+							<span>답변 상태: </span>
 						<%
 							if(m.get("commentMemo") == null){	// 답변 내용 없음 == 답변 날짜 없음
 								%>
-								<td colspan="2">답변 대기</td>
+								<div><strong>대기</strong></div>
 								<%
 							}else {
 								%>
-								<td><%=m.get("commentMemo")%></td>
-								<td><%=m.get("createdateComment")%></td>
+								<div><%=m.get("createdateComment")%> <strong>완료</strong></div>
 								<%
 							}
 						%>
-						<td>
 							<%
-							if(m.get("commentMemo") == null){
+							if(m.get("commentMemo") == null){	// 답변이 달리지 않았다면
 								%>
 								<a href="<%=request.getContextPath()%>/admin/insertCommentForm.jsp?helpNo=<%=m.get("helpNo")%>">
 									답변입력
@@ -90,52 +91,78 @@
 								<%
 							}else {
 								%>
-								<a href="<%=request.getContextPath()%>/admin/updateCommentForm.jsp?commentNo=<%=m.get("commentNo")%>">
-									답변수정
-								</a>
-								<a href="<%=request.getContextPath()%>/admin/deleteComment.jsp?commentNo=<%=m.get("commentNo")%>">
-									답변삭제
-								</a>
+								<span><%=m.get("commentMemo")%></span>
+								<div>
+									<a href="<%=request.getContextPath()%>/admin/updateCommentForm.jsp?commentNo=<%=m.get("commentNo")%>">
+										답변수정
+									</a>
+									<a href="<%=request.getContextPath()%>/admin/deleteComment.jsp?commentNo=<%=m.get("commentNo")%>">
+										답변삭제
+									</a>
+								</div>
 								<%
 							}
+							num++;
 							%>
-						</td>
-					</tr>
+							</div>
+						</div>
+					</div>
 					<%
 				}
 			%>
-		</table>
+		</div>
 	</div>
+	
 	<!-- 페이징 -->
-	<div>
-		<a href="<%=request.getContextPath()%>/admin/helpListAll.jsp?currentPage=1">&#9194;</a>
-			<%
-				if(currentPage > 1){
-			%>
-					<a href="<%=request.getContextPath()%>/admin/helpListAll.jsp?currentPage=<%=currentPage-1%>">◀</a>
-			<%
-				}
-				for(int i = startPage; i <= endPage; i++){
-					if(i == currentPage){	// 현재 페이지는
-						%>
-						<!-- 굵게 -->
-						<strong><a href="<%=request.getContextPath()%>/admin/helpListAll.jsp?currentPage=<%=i%>"><%=i%></a></strong>
-						<%
-					}else {
-						%>
-						<a href="<%=request.getContextPath()%>/admin/helpListAll.jsp?currentPage=<%=i%>"><%=i%></a>
-						<%
+	<div class="container">
+		<ul class="pagination justify-content-center">
+			<li class="page-item">
+				<a class="page-link" href="<%=request.getContextPath()%>/admin/helpListAll.jsp?currentPage=1">&laquo;</a>
+			</li>
+			
+			<li class="page-item">
+				<%
+					if(currentPage > 10){
+				%>
+						<a class="page-link" href="<%=request.getContextPath()%>/admin/helpListAll.jsp?currentPage=<%=currentPage-1%>">&lt;</a>
+				<%
 					}
-				}
-			%>
-			<%
-				if(currentPage < lastPage){
-			%>
-					<a href="<%=request.getContextPath()%>/admin/helpListAll.jsp?currentPage=<%=currentPage+1%>">▶</a>
-			<%
-				}
-			%>
-			<a href="<%=request.getContextPath()%>/admin/helpListAll.jsp?currentPage=<%=lastPage%>">&#9193;</a>
+				%>
+			</li>
+				
+			<li class="page-item">
+				<span class="page-link">
+				<%
+					for(int i = startPage; i <= endPage; i++){
+						if(i == currentPage){	// 현재 페이지는
+							%>
+							<!-- 굵게 -->
+							<strong><a href="<%=request.getContextPath()%>/admin/helpListAll.jsp?currentPage=<%=i%>"  style="background-color:var(--bs-pagination-hover-bg); color:white; text-decoration:none;"><%=i%></a></strong>
+							<%
+						}else {
+							%>
+							<a href="<%=request.getContextPath()%>/admin/helpListAll.jsp?currentPage=<%=i%>" style="color:white; text-decoration:none;"><%=i%></a>
+							<%
+						}
+					}
+				%>
+				</span>
+			</li>
+			
+			<li class="page-item">
+				<%
+					if(currentPage+10 < lastPage){
+				%>
+						<a class="page-link" href="<%=request.getContextPath()%>/admin/helpListAll.jsp?currentPage=<%=currentPage+1%>">&gt;</a>
+				<%
+					}
+				%>
+			</li>
+			
+			<li class="page-item">
+				<a class="page-link" href="<%=request.getContextPath()%>/admin/helpListAll.jsp?currentPage=<%=lastPage%>">&raquo;</a>
+			</li>
+		</ul>
 	</div>
 </body>
 </html>

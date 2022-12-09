@@ -38,6 +38,11 @@
 	<!-- 템플릿 적용 -->
 	<link rel="stylesheet" type="text/css"  href="<%=request.getContextPath()%>/css/Minty/bootstrap.css">
 	<link rel="stylesheet" type="text/css"  href="<%=request.getContextPath()%>/css/Minty/bootstrap.min.css">
+<style>
+	.smallTd{
+		width: 15%;
+	}
+</style>
 </head>
 <body>
 	<!-- 메뉴 페이지 -->
@@ -71,7 +76,7 @@
 			%>
 					<tr>
 						<td><%=n.getNoticeMemo()%></td>
-						<td><%=n.getCreatedate()%></td>
+						<td class="smallTd"><%=n.getCreatedate()%></td>
 					</tr>
 			<%
 				}
@@ -89,7 +94,7 @@
 			    <%
 				if(currentPage > 10){
 				%>
-					<a class="page-link" href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=<%=startPage-1%>">&lt;</a>
+					<a class="page-link" href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=<%=startPage-1%>">이전</a>
 				<%
 				}
 			    %>
@@ -115,9 +120,9 @@
 		    
 		    <li class="page-item">
 			    <%
-				if(currentPage < lastPage){
+				if(currentPage+10 < lastPage){
 				%>
-					<a class="page-link" href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=<%=startPage+10%>">&gt;</a>
+					<a class="page-link" href="<%=request.getContextPath()%>/loginForm.jsp?currentPage=<%=startPage+10%>">다음</a>
 				<%
 				}
 				%>

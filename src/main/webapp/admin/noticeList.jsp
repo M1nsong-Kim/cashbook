@@ -42,6 +42,14 @@
 <!-- 드롭다운을 위해 -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<style>
+	.smallTd {
+		width:6%;
+	}
+	.mediumTd {
+		width:15%;
+	}
+</style>
 </head>
 <body>
 	<!-- 메뉴 페이지 -->
@@ -49,10 +57,12 @@
 		<jsp:include page="/inc/menu.jsp"></jsp:include>
 	</div>
 	<!-- noticeList content -->
-	<div class="container">
-		<h3>공지</h3>
-		<a href="<%=request.getContextPath()%>/admin/insertNoticeForm.jsp" style="text-align:right;">공지추가</a>
-		<table class="table table-hover">
+	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
+		<div class="card-header">
+			공지 목록
+			<a href="<%=request.getContextPath()%>/admin/insertNoticeForm.jsp" style="text-align:right;">공지추가</a>
+		</div>
+		<table class="table">
 			<tr>
 				<th>공지내용</th>
 				<th>공지날짜</th>
@@ -64,11 +74,11 @@
 			%>
 					<tr>
 						<td><%=n.getNoticeMemo()%></td>
-						<td><%=n.getCreatedate()%></td>
-						<td>
+						<td class="mediumTd"><%=n.getCreatedate()%></td>
+						<td class="smallTd">
 							<a href="<%=request.getContextPath()%>/admin/updateNoticeForm.jsp?noticeNo=<%=n.getNoticeNo()%>">수정</a>
 						</td>
-						<td>
+						<td class="smallTd">
 							<a href="<%=request.getContextPath()%>/admin/deleteNotice.jsp?noticeNo=<%=n.getNoticeNo()%>">삭제</a>
 						</td>
 					</tr>
@@ -76,6 +86,7 @@
 				}
 			%>
 		</table>
+	</div>
 		<!-- 페이징 -->
 		<div class="container">
 			<ul class="pagination justify-content-center">
@@ -87,7 +98,7 @@
 				<%
 					if(currentPage > 10){
 						%>				
-						<a class="page-link" href="<%=request.getContextPath()%>/admin/noticeList.jsp?currentPage=<%=startPage-1%>">&lt;</a>
+						<a class="page-link" href="<%=request.getContextPath()%>/admin/noticeList.jsp?currentPage=<%=startPage-1%>">이전</a>
 						<%
 					}
 				%>
@@ -113,9 +124,9 @@
 				
 				<li class="page-item">
 				<%
-					if(currentPage < lastPage){
+					if(currentPage+10 < lastPage){
 						%>
-						<a class="page-link" href="<%=request.getContextPath()%>/admin/noticeList.jsp?currentPage=<%=startPage+10%>">&gt;</a>
+						<a class="page-link" href="<%=request.getContextPath()%>/admin/noticeList.jsp?currentPage=<%=startPage+10%>">다음</a>
 						<%
 					}
 				%>

@@ -46,9 +46,9 @@
 	<div>
 		<jsp:include page="/inc/menu.jsp"></jsp:include>
 	</div>
-	
 	<!-- 회원 등급 변경 -->
-	<div>
+	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
+		<div class="card-header">회원 등급 변경</div>
 		<form method="post" action="<%=request.getContextPath()%>/admin/updateMemberLevelAction.jsp?memberNo=<%=memberNo%>">
 			<!-- 나중에 메시지로 띄울 거라서 -->
 			<%
@@ -58,7 +58,7 @@
 					<%
 				}
 			%>
-			<table>
+			<table class="table">
 				<tr>
 					<td>아이디</td>
 					<td>
@@ -73,7 +73,7 @@
 				<tr>
 					<td>회원등급</td>
 					<td>
-						<input type="number" name="memberLevel" value="<%=member.getMemberLevel()%>">
+						<input type="number" class="form-control" id="inputDefault" name="memberLevel" value="<%=member.getMemberLevel()%>">
 					</td>
 				</tr>
 				<tr>
@@ -84,19 +84,18 @@
 					<td>생성일자</td>
 					<td><%=member.getCreatedate()%></td>
 				</tr>
-			</table>
-			<br>
-			<!-- 등급 수정 전 확인 -->
-			<table>
+				<!-- 등급 수정 전 확인 -->
 				<tr>
 					<!-- 비밀번호 일치해야 멤버 등급 변경 -->
 					<td>관리자 비밀번호</td>
 					<td>
-						<input type="password" name="adminPw">
+						<input type="password" name="adminPw" class="form-control" id="exampleInputPassword1">
 					</td>
 				</tr>
 			</table>
-			<button type="submit">수정</button>
+			<div class="text-center">
+				<button type="submit" class="btn btn-primary">수정</button>
+			</div>
 		</form>
 	</div>
 </body>

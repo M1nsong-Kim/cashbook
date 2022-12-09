@@ -42,7 +42,7 @@
 	if(checkAdminPw == 0){
 		String msg = URLEncoder.encode("비밀번호가 다릅니다.","UTF-8");
 		targetUrl = "/admin/updateMemberLevelForm.jsp";
-		response.sendRedirect(request.getContextPath()+targetUrl+"?msg="+msg+"memberNo="+memberNo);
+		response.sendRedirect(request.getContextPath()+targetUrl+"?msg="+msg+"&memberNo="+memberNo);
 		return;
 	}
 	

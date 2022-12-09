@@ -136,7 +136,7 @@
 			
 			<li class="page-item">
 				<%
-					if(currentPage < lastPage){
+					if(currentPage+10 < lastPage){
 				%>
 						<a class="page-link" href="<%=request.getContextPath()%>/admin/memberList.jsp?currentPage=<%=currentPage+1%>">&gt;</a>
 				<%

@@ -43,8 +43,15 @@
 	long cashPrice = Long.parseLong(request.getParameter("cashPrice"));
 	String cashMemo = request.getParameter("cashMemo");
 	
+	Cash cash = new Cash();
+	cash.setCategoryNo(categoryNo);
+	cash.setCashPrice(cashPrice);
+	cash.setCashDate(cashDate);
+	cash.setCashMemo(cashMemo);
+	cash.setMemberId(loginMemberId);
+	
 	CashDao cashDao = new CashDao();
-	int check = cashDao.insertCashList(loginMemberId, categoryNo, cashPrice, cashDate, cashMemo);
+	int check = cashDao.insertCashList(cash);
 	System.out.println(check);	//1 == 성공, 0 == 실패
 
 	response.sendRedirect(request.getContextPath()+"/cash/cashDateList.jsp?year="+year+"&month="+month+"&date="+date);

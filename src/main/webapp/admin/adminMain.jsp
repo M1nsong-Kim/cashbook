@@ -96,7 +96,7 @@
 		<h4>최근 문의</h4>
 		<table class="table table-hover">
 			<tr class="table-secondary">
-				<th>문의내용</th>
+				<th>문의제목</th>
 				<th>아이디</th>
 				<th>문의날짜</th>
 				<th>답변내용</th>
@@ -106,7 +106,7 @@
 			for(HashMap<String, Object> m : helpList){
 				%>
 				<tr>
-					<td><%=m.get("helpMemo")%></td>
+					<td><%=m.get("helpTitle")%></td>
 					<td><%=m.get("memberId")%></td>
 					<td><%=m.get("createdateHelp")%></td>
 					<%

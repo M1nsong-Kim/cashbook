@@ -55,28 +55,30 @@
 								<%=m.get("createdateHelp")%>
 							</button>
 						</h2>
-					<div id="collapse<%=i%>" class="accordion-collapse collapse" aria-labelledby="heading<%=i%>" data-bs-parent="#accordionExample">
-						<div class="accordion-body">
-					<%
-					// 답변이 없다면
-					if(m.get("commentMemo") == null){
-					%>
-						<%=m.get("helpMemo")%>
-						<a href="<%=request.getContextPath()%>/help/updateHelpForm.jsp?helpNo=<%=m.get("helpNo")%>">수정</a>
-						<a href="<%=request.getContextPath()%>/help/deleteHelp.jsp?helpNo=<%=m.get("helpNo")%>">삭제</a>
-						<div><strong>답변 대기중</strong></div>
-					<%
-					}else {	//답변이 있다면
-						%>	
-						<%=m.get("helpMemo")%>
-						<div><strong>답변:</strong></div>
-						<%=m.get("commentMemo")%>
+						<div id="collapse<%=i%>" class="accordion-collapse collapse" aria-labelledby="heading<%=i%>" data-bs-parent="#accordionExample">
+							<div class="accordion-body">
 						<%
-					}
-					i++;
-					%>
+						// 답변이 없다면
+						if(m.get("commentMemo") == null){
+						%>
+							<%=m.get("helpMemo")%>
+							<a href="<%=request.getContextPath()%>/help/updateHelpForm.jsp?helpNo=<%=m.get("helpNo")%>">수정</a>
+							<a href="<%=request.getContextPath()%>/help/deleteHelp.jsp?helpNo=<%=m.get("helpNo")%>">삭제</a>
+							<div><strong>답변 대기중</strong></div>
+						<%
+						}else {	//답변이 있다면
+							%>	
+							<%=m.get("helpMemo")%>
+							<p></p>
+							<div>답변:</div>
+							<span><%=m.get("createdateComment")%> <strong>답변완료</strong></span>
+							<div><%=m.get("commentMemo")%></div>
+							<%
+						}
+						i++;
+						%>
+							</div>
 						</div>
-					</div>
 					</div>
 					<%
 				}

@@ -38,8 +38,10 @@
 	</div>
 	<!-- categoryList content -->
 	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
-		<div class="card-header">카테고리</div>
-		<a href="<%=request.getContextPath()%>/admin/insertCategoryForm.jsp" style="text-align:right;">카테고리 추가</a>
+		<div class="card-header">
+			카테고리
+			<a href="<%=request.getContextPath()%>/admin/insertCategoryForm.jsp" style="text-align:right;">카테고리 추가</a>
+		</div>
 		<table class="table table-hover">
 			<tr>
 				<th>수입/지출</th>
@@ -54,7 +56,18 @@
 				for(Category c : list){
 			%>
 					<tr>
-						<td><%=c.getCategoryKind()%></td>
+						<%
+						String categoryKind = c.getCategoryKind();
+						if(categoryKind.equals("수입")){
+							%>
+							<td style="color:var(--bs-primary)"><%=categoryKind%></td>
+							<%
+						}else {
+							%>
+							<td style="color:var(--bs-secondary)"><%=categoryKind%></td>
+							<%
+						}
+						%>
 						<td><%=c.getCategoryName()%></td>
 						<td><%=c.getUpdatedate()%></td>
 						<td><%=c.getCreatedate()%></td>

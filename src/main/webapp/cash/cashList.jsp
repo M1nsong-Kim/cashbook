@@ -80,6 +80,15 @@
 		width: 14%;
 		height: 10rem;
 	}
+	.sat {
+		color:blue;
+	}
+	.sun {
+		color:red;
+	}
+	.weekday{
+		color:#888888;
+	}
 </style>
 <!-- 드롭다운을 위해 -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
@@ -105,26 +114,43 @@
 		<!-- 달력 -->
 		<table class="container table">
 			<tr class="text-center">
-				<th>일</th>
+				<th class="sun">일</th>
 				<th>월</th>
 				<th>화</th>
 				<th>수</th>
 				<th>목</th>
 				<th>금</th>
-				<th>토</th>
+				<th class="sat">토</th>
 			</tr>
 			<tr>
 			<%
 				for(int i=1; i <= totalTd; i++){
-			%>
-					<td>
-			<%
+						%>
+						<td>
+						<%
 						int date = i - beginBlank;
 						if( date > 0 && date <= lastDate){
 						%>
 							<div>
-								<a href="<%=request.getContextPath()%>/cash/cashDateList.jsp?year=<%=year%>&month=<%=month+1%>&date=<%=date%>" style="color:#888888;">
-									<%=date%>
+								<a href="<%=request.getContextPath()%>/cash/cashDateList.jsp?year=<%=year%>&month=<%=month+1%>&date=<%=date%>">
+									<%
+									// 요일별 다른 색깔
+									if(i % 7 == 0){	//토요일
+										%>
+										<span class="sat">
+										<%
+									}else if(i % 7 == 1){	// 일요일
+										%>
+										<span class="sun">
+										<%
+									}else {	//평일
+										%>
+										<span class="weekday">
+										<%
+									}
+									%>
+											<%=date%>
+										</span>
 								</a>
 							</div>
 							<div>
@@ -167,14 +193,15 @@
 			%>
 
 					</td>
-			<%
-					if(i % 7 == 0 && i != lastDate){	//주마다 줄 바꾸기
+				<%
+					//주마다 줄 바꾸기
+					if(i % 7 == 0 && i != totalTd){	
 				%>	
 						</tr><tr>
 				<%
 					}
 				}
-			%>
+				%>
 			</tr>
 		</table>
 	</div>

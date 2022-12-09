@@ -43,8 +43,15 @@
 	long cashPrice = Long.parseLong(request.getParameter("cashPrice"));
 	String cashMemo = request.getParameter("cashMemo");
 	
+	Cash cash = new Cash();
+	cash.setCategoryNo(categoryNo);
+	cash.setCashPrice(cashPrice);
+	cash.setCashMemo(cashMemo);
+	cash.setCashNo(cashNo);
+	cash.setMemberId(loginMemberId);
+	
 	CashDao cashDao = new CashDao();
-	int check = cashDao.updateCashList(categoryNo, cashPrice, cashMemo, cashNo, loginMemberId);
+	int check = cashDao.updateCashList(cash);
 	if(check == 1){
 		System.out.println("업데이트 성공");
 	}else {
