@@ -21,10 +21,11 @@
 	    <div class="collapse navbar-collapse" id="navbarColor02">
 	      <ul class="navbar-nav me-auto">
 	        <li class="nav-item">
+	          <a class="nav-link" href="<%=request.getContextPath()%>/stats/statsMain.jsp">통계</a>
+	        </li>
+	        <li class="nav-item">
 	          <a class="nav-link" href="<%=request.getContextPath()%>/member/memberPage.jsp">마이페이지</a>
 	        </li>
-	        
-	        
 	        <li class="nav-item dropdown">
 				<%
 					if(loginMember != null){
@@ -46,15 +47,11 @@
 					}
 				%>
 	        </li>
-	        
-	        
-        
-        
-        
 	        <li class="nav-item">
 				<a class="nav-link" href="<%=request.getContextPath()%>/help/helpMain.jsp">고객센터</a>
 			</li>
 	      </ul>
+	      
 	      <!-- 오른쪽 -->
 	      <span class="d-flex nav-item dropdown">
 	      <%
