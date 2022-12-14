@@ -43,7 +43,7 @@
 	
 	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
 		<div class="card-header">문의 수정하기</div>
-		<form method="post" action="<%=request.getContextPath()%>/help/updateHelpAction.jsp?helpNo=<%=helpNo%>">
+		<form method="post" action="<%=request.getContextPath()%>/help/updateHelpAction.jsp?helpNo=<%=helpNo%>" id="updateHelpForm">
 			<table class="table">
 				<tr>
 					<td>문의날짜</td>
@@ -51,19 +51,46 @@
 				</tr>
 				<tr>
 					<td>제목</td>
-					<td><input type="text" name="helpTitle" value="<%=map.get("helpTitle")%>" class="form-control" id="inputDefault"></td>
+					<td><input type="text" name="helpTitle" value="<%=map.get("helpTitle")%>" class="form-control" id="helpTitle"></td>
 				</tr>
 				<tr>
 					<td>내용</td>
 					<td>
-						<textarea class="form-control" id="exampleTextarea" rows="3" name="helpMemo"><%=map.get("helpMemo")%></textarea>
+						<textarea class="form-control" id="helpMemo" rows="3" name="helpMemo"><%=map.get("helpMemo")%></textarea>
 					</td>
 				</tr>
 			</table>
 			<div class="text-center">
-				<button type="submit" class="btn btn-primary">수정</button>
+				<button type="button" class="btn btn-primary" id="updateHelpBtn">수정</button>
 			</div>
 		</form>
 	</div>
+	<!-- 유효성 검사 -->
+	<script>
+		let updateHelpBtn = document.querySelector('#updateHelpBtn');
+		updateHelpBtn.addEventListener('click', function() {
+			// 디버깅
+			console.log('문의 수정 클릭');
+			
+			// 제목 폼 유효성 검사
+			let helpTitle = document.querySelector('#helpTitle');
+			if(helpTitle.value == ''){
+				alert('제목을 입력해주세요');
+				helpTitle.focus();
+				return;
+			}
+			
+			// 내용 유효성 검사
+			let helpMemo = document.querySelector('#helpMemo');
+			if(helpMemo.value.length == 0){
+				alert('내용을 입력해주세요');
+				helpMemo.focus();
+				return;
+			}
+			
+			let updateHelpForm = document.querySelector('#updateHelpForm');
+			updateHelpForm.submit();
+		});
+	</script>
 </body>
 </html>

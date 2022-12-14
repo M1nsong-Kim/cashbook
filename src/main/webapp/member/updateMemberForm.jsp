@@ -36,7 +36,7 @@
 	</div>
 	
 	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
-		<form method="post" action="<%=request.getContextPath()%>/member/updateMemberAction.jsp">
+		<form method="post" action="<%=request.getContextPath()%>/member/updateMemberAction.jsp" id="updateMemberForm">
 			<div class="card-header">회원정보 변경</div>
 			<table class="table">
 				<tr>
@@ -49,27 +49,49 @@
 				<tr>
 					<td>이름</td>
 					<td>
-						<input type="text"  name="memberName" value="<%=memberName%>" class="form-control" id="inputDefault">
+						<input type="text"  name="memberName" value="<%=memberName%>" class="form-control">
 					</td>
 				</tr>
 				<tr>
 					<td>비밀번호</td>
 					<td>
-						<input type="password" name="memberPw" class="form-control" id="exampleInputPassword1">
-						<%
-							if(msg != null){
-						%>
-								<span><%=msg%></span>
-						<%
-							}
-						%>
+						<input type="password" name="memberPw" class="form-control" id="memberPw">
 					</td>
 				</tr>
 			</table>
 			<div class="text-center">
-				<button type="submit" class="btn btn-primary">정보 수정</button>
+				<button type="button" class="btn btn-primary" id="updateMemberBtn">정보 수정</button>
 			</div>
 		</form>
 	</div>
+	<!-- 검사 -->
+	<script>
+		<%
+			// 비밀번호가 일치하지 않는다면
+			if(msg != null){
+		%>
+				alert('<%=msg%>');
+		<%
+			}
+		%>
+		let updateMemberBtn = document.querySelector('#updateMemberBtn');
+		updateMemberBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('정보 수정 클릭');
+			
+			// 비밀번호 폼 유효성 검사
+			let memberPw = document.querySelector('#memberPw');
+			if(memberPw.value == ''){
+				alert('비밀번호를 입력해 주세요');
+				memberPw.focus();
+				return;
+			}
+			
+			// submit
+			let updateMemberForm = document.querySelector('#updateMemberForm');
+			updateMemberForm.submit();
+		});
+	</script>
+	
 </body>
 </html>

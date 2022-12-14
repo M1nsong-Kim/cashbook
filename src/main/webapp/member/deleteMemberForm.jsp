@@ -38,33 +38,53 @@
 	</div>
 	
 	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
-		<form method="post" action="<%=request.getContextPath()%>/member/deleteMemberAction.jsp">
+		<form method="post" action="<%=request.getContextPath()%>/member/deleteMemberAction.jsp" id="deleteMemberForm">
 			<div class="card-header">회원탈퇴</div>
-			<%
-				if(msg != null){
-					%>
-					<span><%=msg%></span>
-					<%
-				}
-			%>
 			<table class="table">
 				<tr>
 					<td>아이디</td>
 					<td>
-						<input type="text" name="memberId" value="<%=memberId%>" readonly="readonly" class="form-control" id="inputDefault">
+						<input type="text" name="memberId" value="<%=memberId%>" readonly="readonly" class="form-control">
 					</td>
 				</tr>
 				<tr>
 					<td>비밀번호</td>
 					<td>
-						<input type="password" name="memberPw" class="form-control" id="exampleInputPassword1">
+						<input type="password" name="memberPw" class="form-control" id="memberPw">
 					</td>
 				</tr>
 			</table>
 			<div class="text-center">
-				<button type="submit" class="btn btn-primary">회원탈퇴</button>
+				<button type="button" class="btn btn-primary" id="deleteMemberBtn">회원탈퇴</button>
 			</div>
 		</form>
 	</div>
+	<!-- 유효성 검사 -->
+	<script>
+		<%
+			// 비밀번호가 일치하지 않는다면
+			if(msg != null){
+				%>
+				alert("<%=msg%>");
+				<%
+			}
+		%>
+		let deleteMemberBtn = document.querySelector('#deleteMemberBtn');
+		deleteMemberBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('회원탈퇴 클릭');
+			
+			// 비밀번호 폼 유효성 검사
+			let memberPw = document.querySelector('#memberPw');
+			if(memberPw.value == ''){
+				alert('비밀번호를 입력해 주세요');
+				memberPw.focus();
+				return;
+			}
+			
+			let deleteMemberForm = document.querySelector('#deleteMemberForm');
+			deleteMemberForm.submit();
+		});
+	</script>
 </body>
 </html>

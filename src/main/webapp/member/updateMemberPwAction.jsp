@@ -43,13 +43,6 @@
 		return;
 	}
 	
-	// 새 비밀번호, 비밀번호 확인 일치 확인
-	if(!updatePw.equals(updatePwCheck)){
-		String msgUpdatePw = URLEncoder.encode("새 비밀번호와 비밀번호 확인이 일치하지 않습니다.", "UTF-8");
-		response.sendRedirect(request.getContextPath()+"/member/updateMemberPwForm.jsp?msgUpdatePw="+msgUpdatePw);
-		return;
-	}
-	
 	// 비밀번호 변경 수행
 	int checkUpdate = memberDao.updateMemberPw(updatePw, memberId);
 	if(checkUpdate == 1){

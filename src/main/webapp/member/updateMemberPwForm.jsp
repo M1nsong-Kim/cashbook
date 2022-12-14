@@ -9,7 +9,6 @@
 	}
 	
 	String msgCurrentPw = request.getParameter("msgCurrentPw");
-	String msgUpdatePw = request.getParameter("msgUpdatePw");
 %>
 <!DOCTYPE html>
 <html>
@@ -30,46 +29,69 @@
 	</div>
 	
 	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
-		<form method="post" action="<%=request.getContextPath()%>/member/updateMemberPwAction.jsp">
+		<form method="post" action="<%=request.getContextPath()%>/member/updateMemberPwAction.jsp" id="updateMemberPwForm">
 			<div class="card-header">비밀번호 변경</div>
 			<table class="table">
 				<tr>
 					<td>현재 비밀번호</td>
 					<td>
-						<input type="password" name="currentPw" class="form-control" id="exampleInputPassword1">
-						<%
-							if(msgCurrentPw != null){
-						%>
-								<div><strong><%=msgCurrentPw%></strong></div>
-						<%
-							}
-						%>
+						<input type="password" name="currentPw" class="form-control" id="currentPw">
 					</td>
 				</tr>
 				<tr>
 					<td>새 비밀번호</td>
 					<td>
-						<input type="password" name="updatePw" class="form-control" id="exampleInputPassword1">
+						<input type="password" name="updatePw" class="form-control" id="updatePw">
 					</td>
 				</tr>
 				<tr>
 					<td>새 비밀번호 확인</td>
 					<td>
-						<input type="password" name="updatePwCheck" class="form-control" id="exampleInputPassword1">
-						<%
-							if(msgUpdatePw != null){
-						%>
-								<span><%=msgUpdatePw%></span>
-						<%
-							}
-						%>
+						<input type="password" name="updatePwCheck" class="form-control" id="updatePwCheck">
 					</td>
 				</tr>
 			</table>
 			<div class="text-center">
-				<button type="submit" class="btn btn-primary">비밀번호 변경</button>
+				<button type="button" class="btn btn-primary" id="updateMemberPwBtn">비밀번호 변경</button>
 			</div>
 		</form>
 	</div>
+	<!-- 검사 -->
+	<script>
+		<%
+			// 현재 비밀번호가 일치하지 않을 때
+			if(msgCurrentPw != null){
+		%>
+				alert('<%=msgCurrentPw%>');
+		<%
+			}
+		%>
+		let updateMemberPwBtn = document.querySelector('#updateMemberPwBtn');
+		updateMemberPwBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('비밀번호 변경 클릭');
+			
+			// 현재 비밀번호 폼 유효성 검사 
+			let currentPw = document.querySelector('#currentPw');
+			if(currentPw.value == ''){
+				alert('현재 비밀번호를 입력해 주세요');
+				currentPw.focus();
+				return;
+			}
+			
+			// 비밀번호 일치 검사
+			let updatePw = document.querySelector('#updatePw');
+			let updatePwCheck = document.querySelector('#updatePwCheck');
+			if(updatePw.value == '' || updatePw.value != updatePwCheck.value){
+				alert('비밀번호가 일치하지 않습니다');
+				updatePw.focus();
+				return;
+			}
+			
+			// submit
+			let updateMemberPwForm = document.querySelector('#updateMemberPwForm');
+			updateMemberPwForm.submit();
+		});
+	</script>
 </body>
 </html>

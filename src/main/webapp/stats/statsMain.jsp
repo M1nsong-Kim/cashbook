@@ -43,6 +43,7 @@
 				<th>지출입력횟수</th>
 				<th>지출합계</th>
 				<th>지출평균</th>
+				<th>합계</th>
 			</tr>
 			<% for(HashMap<String, Object> m : list){
 				%>
@@ -56,6 +57,7 @@
 					<td><%=m.get("countExport")%></td>
 					<td><%=m.get("sumExport")%>원</td>
 					<td><%=m.get("avgExport")%>원</td>
+					<td><%=(int)m.get("sumImport") - (int)m.get("sumExport")%>원</td>
 				</tr>
 				<%
 			} %>

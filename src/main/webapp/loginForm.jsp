@@ -51,19 +51,45 @@
 	</div>
 	<!-- 로그인 -->
 	<div style="margin-bottom: 2.5rem;">
-		<form method="post" action="<%=request.getContextPath()%>/loginAction.jsp">
+		<form method="post" action="<%=request.getContextPath()%>/loginAction.jsp" id="loginForm">
 			<div class="card border-secondary mb-3 container " style="max-width: 20rem;">
 			  <div class="card-header">로그인</div>
 			  <div class="card-body">
-				<input type="text" name="memberId" class="form-control" id="inputDefault" placeholder="ID를 입력하세요">
-				<input type="password" name="memberPw" class="form-control" id="exampleInputPassword1" placeholder="비밀번호를 입력하세요">
+				<input type="text" name="memberId" class="form-control" id="memberId" placeholder="ID를 입력하세요">
+				<input type="password" name="memberPw" class="form-control" id="memberPw" placeholder="비밀번호를 입력하세요">
 			  </div>
-				<button type="submit" class="btn btn-primary">로그인</button>
+				<button type="button" class="btn btn-primary" id="loginFormBtn">로그인</button>
 				<span class="text-center">회원이 아니신가요?</span>
 				<a class="text-center" href="<%=request.getContextPath()%>/member/signUpForm.jsp">회원가입</a>
 			</div>
 		</form>
 	</div>
+	<!-- 유효성 검사 -->
+	<script>
+		let loginFormBtn = document.querySelector('#loginFormBtn');
+		loginFormBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('로그인 클릭');
+			
+			// 아이디 폼 유효성 검사
+			let memberId = document.querySelector('#memberId');
+			if(memberId.value == ''){
+				alert('아이디를 입력하세요');
+				memberId.focus();
+				return;
+			}
+			// 비밀번호 폼 유효성 검사
+			let memberPw = document.querySelector('#memberPw');
+			if(memberPw.value == ''){
+				alert('비밀번호를 입력하세요');
+				memberPw.focus();
+				return;
+			}
+			
+			let loginForm = document.querySelector('#loginForm');
+			loginForm.submit();
+		});
+	</script>
 	<!-- 공지(5개)-->
 	<div>
 		<table class="container table table-hover">

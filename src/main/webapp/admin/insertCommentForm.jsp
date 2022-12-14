@@ -58,20 +58,40 @@
 			</tr>
 		</table>
 	<!-- 답변 -->
-		<form method="post" action="<%=request.getContextPath()%>/admin/insertCommentAction.jsp?helpNo=<%=helpNo%>">
+		<form method="post" action="<%=request.getContextPath()%>/admin/insertCommentAction.jsp?helpNo=<%=helpNo%>" id="insertCommentForm">
 			<div class="card-header">문의 답변하기</div>
 			<table class="table">
 				<tr>
 					<td>답변</td>
 					<td>
-						<textarea class="form-control" id="exampleTextarea" rows="3" name="commentMemo"></textarea>
+						<textarea class="form-control" id="commentMemo" rows="3" name="commentMemo"></textarea>
 					</td>
 				</tr>
 			</table>
 			<div class="text-center">
-				<button type="submit" class="btn btn-primary">등록</button>
+				<button type="button" class="btn btn-primary" id="insertCommentBtn">등록</button>
 			</div>
 		</form>
 	</div>
+	<!-- 유효성 검사 -->
+	<script>
+		let insertCommentBtn = document.querySelector('#insertCommentBtn');
+		insertCommentBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('답변 등록 클릭');
+			
+			// 답변 유효성 검사
+			let commentMemo = document.querySelector('#commentMemo');
+			if(commentMemo.value.length == 0){
+				alert('답변을 입력해 주세요');
+				commentMemo.focus();
+				return;
+			}
+			
+			// submit
+			let insertCommentForm = document.querySelector('#insertCommentForm');
+			insertCommentForm.submit();
+		});
+	</script>
 </body>
 </html>

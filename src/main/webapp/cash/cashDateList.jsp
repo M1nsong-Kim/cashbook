@@ -75,7 +75,7 @@
 	<div style="margin-bottom: 5rem;">
 		<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
 			<div class="card-header"><%=year%>년 <%=month%>월 <%=date%>일</div>
-			<form action="<%=request.getContextPath()%>/cash/insertCashAction.jsp" method="post">
+			<form action="<%=request.getContextPath()%>/cash/insertCashAction.jsp" method="post" id="insertCashForm">
 				<input type="hidden" name="memberId" value="<%=loginMember.getMemberId()%>">
 				<!-- 입력 후 해당 날짜 상세페이지로 가려고 -->
 				<input type="hidden" name="year" value="<%=year%>">
@@ -111,7 +111,7 @@
 					<tr>
 						<td>금액</td>
 						<td>
-							<input type="number" name="cashPrice" class="form-control" id="inputDefault" placeholder="단위: 원">
+							<input type="number" name="cashPrice" class="form-control" id="cashPrice" placeholder="단위: 원">
 						</td>
 					</tr>
 					
@@ -119,16 +119,43 @@
 					<tr>
 						<td>내용</td>
 						<td>
-							<textarea class="form-control" id="exampleTextarea" rows="3" name="cashMemo"></textarea>
+							<textarea class="form-control" id="cashMemo" rows="3" name="cashMemo"></textarea>
 						</td>
 					</tr>
 				</table>
 				<div class="text-center">
-					<button type="submit" class="btn btn-primary">추가</button>
+					<button type="button" class="btn btn-primary" id="insertCashBtn">추가</button>
 				</div>
 			</form>
 		</div>	
 	</div>
+	<!-- 유효성 검사 -->
+	<script>
+		let insertCashBtn = document.querySelector('#insertCashBtn');
+		insertCashBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('가계부 내역 추가 클릭');
+			
+			// 금액 폼 유효성 검사
+			let cashPrice = document.querySelector('#cashPrice');
+			if(cashPrice.value.length == 0){
+				alert('금액을 입력해주세요');
+				cashPrice.focus();	// 커서 이동
+				return;
+			}
+			
+			// 내용 폼 유효성 검사
+			let cashMemo = document.querySelector('#cashMemo');
+			if(cashMemo.value.length == 0){
+				alert('내용을 입력해주세요');
+				cashMemo.focus();	// 커서 이동
+				return;
+			}
+			
+			let insertCashForm = document.querySelector('#insertCashForm');
+			insertCashForm.submit();
+		});
+	</script>
 
 	<!-- cash 목록 출력 -->
 	<div>

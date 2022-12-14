@@ -62,9 +62,10 @@
 	// 2. Model 호출
 	CashDao cashDao = new CashDao();
 	ArrayList<HashMap<String, Object>> list = cashDao.selectCashListByMonth(loginMemberId, year, month+1);	//month: 0~11
-																			// loginMemberId의 정보만 가져오기 때문에 view 부분은 수정하지 않아도 된다
+																			// loginMemberId의 정보만 가져오기 때문에 view 부분은 수정하지 않아도 된다	
+	StatsDao statsDao = new StatsDao();
+	ArrayList<HashMap<String, Object>> statsList = statsDao.selectCashStatsByDay(loginMemberId, year, month+1); //month: 0~11
 	
-																			
 	// 3. View: 달력 + 일별 cash 목록
 %>
 <!DOCTYPE html>
@@ -88,6 +89,10 @@
 	}
 	.weekday{
 		color:#888888;
+	}
+	#alignBottom {
+		line-height: 50px;
+		vertical-align: bottom;
 	}
 </style>
 <!-- 드롭다운을 위해 -->
@@ -187,8 +192,20 @@
 										}
 									}
 									%>
-									<br>
-									<span>합계:</span>
+									<!-- ★★다시 정렬★★ -->
+									<div id="alignBottom">
+										<%
+										// 일별 합계
+										for(HashMap<String, Object> m : statsList){
+											int cashDay = (int)(m.get("day"));
+											if(cashDay == date){
+												%>
+												<span>[합계] <%=(int)m.get("sumImport") - (int)m.get("sumExport")%>원</span>
+												<%
+											}
+										}
+										%>
+									</div>
 									<%
 								%>
 							</div>

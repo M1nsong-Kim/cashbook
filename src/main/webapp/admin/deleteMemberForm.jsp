@@ -47,15 +47,7 @@
 	<!-- 강제탈퇴 -->
 	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
 		<div class="card-header">회원 강제탈퇴</div>
-		<form method="post" action="<%=request.getContextPath()%>/admin/deleteMemberAction.jsp">
-			<!-- 나중에 메시지로 띄울 거라서 -->
-			<%
-				if(msg != null){
-					%>
-						<span><%=msg%></span>
-					<%
-				}
-			%>
+		<form method="post" action="<%=request.getContextPath()%>/admin/deleteMemberAction.jsp" id="deleteMemberForm">
 			<table class="table">
 				<tr>
 					<td>회원번호</td>
@@ -80,14 +72,42 @@
 				<tr>
 					<td>관리자 비밀번호</td>
 					<td>
-						<input type="password" name="adminPw" class="form-control" id="exampleInputPassword1">
+						<input type="password" name="adminPw" class="form-control" id="adminPw">
 					</td>
 				</tr>
 			</table>
 			<div class="text-center">
-				<button type="submit" class="btn btn-primary">강제탈퇴</button>
+				<button type="button" class="btn btn-primary" id="deleteMemberBtn">강제탈퇴</button>
 			</div>
 		</form>
 	</div>
+	<!-- 검사 -->
+	<script>
+		// 관리자 비밀번호 일치하지 않으면 띄울 메시지
+		<%
+			if(msg != null){
+				%>
+					alert('<%=msg%>');
+				<%
+			}
+		%>
+		let deleteMemberBtn = document.querySelector('#deleteMemberBtn');
+		deleteMemberBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('강제탈퇴 클릭');
+			
+			// 비밀번호 폼 유효성 검사
+			let adminPw = document.querySelector('#adminPw');
+			if(adminPw.value == ''){
+				alert('비밀번호를 입력해 주세요');
+				adminPw.focus();
+				return;
+			}
+			
+			// submit
+			let deleteMemberForm = document.querySelector('#deleteMemberForm');
+			deleteMemberForm.submit();
+		});
+	</script>
 </body>
 </html>

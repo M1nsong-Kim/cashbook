@@ -49,15 +49,7 @@
 	<!-- 회원 등급 변경 -->
 	<div class="card border-secondary mb-3 container " style="max-width: 60rem;">
 		<div class="card-header">회원 등급 변경</div>
-		<form method="post" action="<%=request.getContextPath()%>/admin/updateMemberLevelAction.jsp?memberNo=<%=memberNo%>">
-			<!-- 나중에 메시지로 띄울 거라서 -->
-			<%
-				if(msg != null){
-					%>
-						<span><%=msg%></span>
-					<%
-				}
-			%>
+		<form method="post" action="<%=request.getContextPath()%>/admin/updateMemberLevelAction.jsp?memberNo=<%=memberNo%>" id="updateMemberLevelForm">
 			<table class="table">
 				<tr>
 					<td>아이디</td>
@@ -73,7 +65,7 @@
 				<tr>
 					<td>회원등급</td>
 					<td>
-						<input type="number" class="form-control" id="inputDefault" name="memberLevel" value="<%=member.getMemberLevel()%>">
+						<input type="number" class="form-control" id="memberLevel" name="memberLevel" value="<%=member.getMemberLevel()%>">
 					</td>
 				</tr>
 				<tr>
@@ -89,14 +81,50 @@
 					<!-- 비밀번호 일치해야 멤버 등급 변경 -->
 					<td>관리자 비밀번호</td>
 					<td>
-						<input type="password" name="adminPw" class="form-control" id="exampleInputPassword1">
+						<input type="password" name="adminPw" class="form-control" id="adminPw">
 					</td>
 				</tr>
 			</table>
 			<div class="text-center">
-				<button type="submit" class="btn btn-primary">수정</button>
+				<button type="button" class="btn btn-primary" id="updateMemberLevelBtn">수정</button>
 			</div>
 		</form>
 	</div>
+	<!-- 검사 -->
+	<script>
+		// 관리자 비밀번호가 일치하지 않으면
+		<%
+			if(msg != null){
+				%>
+				alert('<%=msg%>');
+				<%
+			}
+		%>
+		let updateMemberLevelBtn = document.querySelector('#updateMemberLevelBtn');
+		updateMemberLevelBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('회원 등급 수정 클릭');
+			
+			// 회원 등급 유효성 검사
+			let memberLevel = document.querySelector('#memberLevel');
+			if(memberLevel.value.length == 0){
+				alert('회원 등급을 입력해 주세요');
+				memberLevel.focus();	// 커서 이동
+				return;
+			}
+			
+			// 비밀번호 폼 유효성 검사
+			let adminPw = document.querySelector('#adminPw');
+			if(adminPw.value == ''){
+				alert('비밀번호를 입력해 주세요');
+				adminPw.focus();
+				return;
+			}
+			
+			// submit
+			let updateMemberLevelForm = document.querySelector('#updateMemberLevelForm');
+			updateMemberLevelForm.submit();
+		});
+	</script>
 </body>
 </html>

@@ -44,7 +44,7 @@
 	<!-- 카테고리 수정 -->
 	<div class="card border-secondary mb-3 container " style="max-width: 30rem;">
 		<div class="card-header">카테고리 수정</div>
-		<form method="post" action="<%=request.getContextPath()%>/admin/updateCategoryAction.jsp">
+		<form method="post" action="<%=request.getContextPath()%>/admin/updateCategoryAction.jsp" id="updateCategoryForm">
 			<table class="table">
 				<tr>
 					<td>
@@ -52,14 +52,34 @@
 						<input type="hidden" name="categoryNo" value="<%=category.getCategoryNo()%>">
 					</td>
 					<td>
-						<input type="text" name="categoryName" value="<%=category.getCategoryName()%>" class="form-control" id="inputDefault">
+						<input type="text" name="categoryName" value="<%=category.getCategoryName()%>" class="form-control" id="categoryName">
 					</td>
 				</tr>
 			</table>
 			<div class="text-center">
-				<button type="submit" class="btn btn-primary">수정</button>
+				<button type="button" class="btn btn-primary" id="updateCategoryBtn">수정</button>
 			</div>
 		</form>
 	</div>
+	<!-- 유효성 검사 -->
+	<script>
+		let updateCategoryBtn = document.querySelector('#updateCategoryBtn');
+		updateCategoryBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('카테고리 수정 클릭');
+			
+			// 카테고리이름 폼 유효성 검사
+			let categoryName = document.querySelector('#categoryName');
+			if(categoryName.value == ''){
+				alert('카테고리 이름을 입력하세요');
+				categoryName.focus();
+				return;
+			}
+			
+			// submit
+			let updateCategoryForm = document.querySelector('#updateCategoryForm');
+			updateCategoryForm.submit();
+		});
+	</script>
 </body>
 </html>
