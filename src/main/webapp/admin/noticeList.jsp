@@ -21,11 +21,11 @@
 	int beginRow = (currentPage-1)*rowPerPage;
 	int pageList = 10; // 페이지 10개씩 보여줌
 	int startPage = ((currentPage-1)/pageList)*pageList+1;	// n1
-	int endPage = startPage + pageList - 1;	// (n+1)0
+	int endRow = startPage + pageList - 1;	// (n+1)0
 	int lastPage = (int)Math.ceil(noticeDao.selectNoticeCount()/(double)rowPerPage);	//모델 호출
 	
-	if(endPage > lastPage){	//마지막 페이지보다 더 큰 숫자의 페이지 존재하지 않도록
-		endPage = lastPage;
+	if(endRow > lastPage){	//마지막 페이지보다 더 큰 숫자의 페이지 존재하지 않도록
+		endRow = lastPage;
 	}
 	
 	ArrayList<Notice> list = noticeDao.selectNoticeListByPage(beginRow, rowPerPage);
@@ -107,7 +107,7 @@
 				<li class="page-item">
 					<span class="page-link">
 					<%
-					for(int i = startPage; i <= endPage; i++){
+					for(int i = startPage; i <= endRow; i++){
 						if(i == currentPage){
 							%>
 							<strong><a href="<%=request.getContextPath()%>/admin/noticeList.jsp?currentPage=<%=i%>" style="background-color:var(--bs-pagination-hover-bg); color:white; text-decoration:none;"><%=i%></a></strong>
