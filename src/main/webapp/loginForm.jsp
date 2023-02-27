@@ -55,8 +55,8 @@
 			<div class="card border-secondary mb-3 container " style="max-width: 20rem;">
 			  <div class="card-header">로그인</div>
 			  <div class="card-body">
-				<input type="text" name="memberId" class="form-control" id="memberId" placeholder="ID를 입력하세요">
-				<input type="password" name="memberPw" class="form-control" id="memberPw" placeholder="비밀번호를 입력하세요">
+				<input type="text" name="memberId" class="form-control" id="memberId" placeholder="ID를 입력하세요" value="hong">
+				<input type="password" name="memberPw" class="form-control" id="memberPw" placeholder="비밀번호를 입력하세요" value="1234">
 			  </div>
 				<button type="button" class="btn btn-primary" id="loginFormBtn">로그인</button>
 				<span class="text-center">회원이 아니신가요?</span>
